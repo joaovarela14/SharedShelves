@@ -1,3 +1,5 @@
+import * as React from 'react';
+import MainContainer from './navigation/MainContainer';
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { Linking } from 'react-native';
@@ -8,7 +10,9 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function App() {
   return (
-    <View style={styles.container}>
+   <MainContainer />
+    
+    /*<View style={styles.container}>
       <Text style={styles.title}>SharedShelves</Text>
       <Text style={{ color: 'green' }}>Welcome to SharedShelves! </Text> 
       <Button color={'lightgreen'} title="Login" onPress={() => openURL('https://www.bertrand.pt/')} />
@@ -17,10 +21,9 @@ export default function App() {
 
       
       <StatusBar style="auto" />
-    </View>
+    </View>*/
   );
 }
-
 
 
 const openURL = (url) => {
@@ -29,8 +32,6 @@ const openURL = (url) => {
     .then(() => console.log('URL opened successfully'))
     .catch((err) => console.error('An error occurred: ', err));
 };
-
-
 
 
 const styles = StyleSheet.create({
