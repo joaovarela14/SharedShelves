@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-export default function HomeScreen({ navigation }) {
+export default function BooksScreen({ navigation }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>SharedShelves</Text>
-        </TouchableOpacity>
+    <Text style={{ fontSize: 25, fontWeight: 'bold' }}>BOOK</Text>
         </View>
     );
     }
