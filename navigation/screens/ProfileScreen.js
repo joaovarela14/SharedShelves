@@ -1,25 +1,25 @@
-import { NavigationContainer } from '@react-navigation/native';
-import * as React from 'react';
-import { View, Text, TouchableOpacity, Button} from 'react-native';
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles from '../../Style';
-import { MaterialIcons } from '@expo/vector-icons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
+export default function ProfileScreen() {
+  const navigation = useNavigation(); // Use the useNavigation hook to get navigation object
 
-export default function ProfileScreen({ navigation }) {
+  const goToSettings = () => {
+    navigation.navigate('Settings'); // Navigate to the 'Settings' screen
+  };
+
   return (
-      <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start', paddingHorizontal: 20, paddingTop: 30 }}>
-        
-      
-      
-      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.button}>
-        <Text style={styles.buttonText}>Go to Home Screen</Text>
+    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'top', justifyContent: 'space-between', paddingHorizontal: 12, padding: 35 }}>
+      <Text style={{ fontSize: 23, fontWeight: 'bold' }}> Welcome Filipa!</Text>
+
+      <TouchableOpacity onPress={goToSettings}>
+        <Ionicons name="settings" size={30} color="black" />
       </TouchableOpacity>
-
-
-
     </View>
-    
 
+    
   );
 }
