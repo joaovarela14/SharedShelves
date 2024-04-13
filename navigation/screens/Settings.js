@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, Switch, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { MainTabNavigator } from '../MainContainer';
 
 const Stack = createStackNavigator();
 
@@ -9,7 +10,7 @@ export default function SettingsScreen() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Settings"
+        name="SettingsScreen"
         component={SettingsContent}
         options={({ navigation }) => ({
           headerTitle: 'Settings',
@@ -32,7 +33,6 @@ export default function SettingsScreen() {
 function SettingsContent() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
 
       <View style={styles.setting}>
         <Text>Dark Mode</Text>

@@ -20,10 +20,11 @@ const SearchScreenName = 'Search';
 const ShelfScreenName = 'Shelf';
 const SettingsScreenName = 'Settings';
 
-const Tab = createBottomTabNavigator();
+
 const Stack = createStackNavigator();
 
-function MainTabNavigator() {
+export function MainTabNavigator() {
+  const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
       
