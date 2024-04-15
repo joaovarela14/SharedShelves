@@ -47,15 +47,21 @@ export function MainTabNavigator() {
           return <Ionicons name={iconName} size={28} color={'black'} />;
         },
         tabBarStyle: {
-          backgroundColor: '#9F8772',
+          backgroundColor: '#3A8D5B',
           borderTopWidth: 0,
           shadowOffset: { width: 0, height: 0 },
           shadowOpacity: 0,
           elevation: 0,
-          height: 55,
+          height: 60,
+          position: 'absolute',
+          bottom: 13,
+          left: 17,
+          right: 17,
+          borderRadius: 10,
+          
         },
         tabBarLabelStyle: {
-          fontSize: 13,
+          fontSize: 0,
         },
         tabBarActiveTintColor: 'black',
         tabBarInactiveTintColor: 'black',
