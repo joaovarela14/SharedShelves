@@ -2,7 +2,6 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, Switch, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { MainTabNavigator } from '../MainContainer';
 
 const Stack = createStackNavigator();
 
