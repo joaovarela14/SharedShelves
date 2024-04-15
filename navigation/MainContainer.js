@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createStackNavigator } from '@react-navigation/stack';
+import { View } from 'react-native';
 
 // Screens
 import HomeScreen from './screens/HomeScreen';
@@ -11,6 +12,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import SearchScreen from './screens/SearchScreen';
 import ShelfScreen from './screens/ShelfScreen';
 import SettingsScreen from './screens/Settings';
+import DonateScreen from './screens/Donate';
 
 // Screen names
 const HomeScreenName = 'Home';
@@ -18,7 +20,8 @@ const BookScreenName = 'Book';
 const ProfileScreenName = 'Profile';
 const SearchScreenName = 'Search';
 const ShelfScreenName = 'Shelf';
-const SettingsScreenName = 'Settings';
+
+
 
 
 const Stack = createStackNavigator();
@@ -30,8 +33,11 @@ export function MainTabNavigator() {
       
       screenOptions={({ route }) => ({
         headerShown: false,
+        
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
+          let sizeIcon = 28;
+          let underlineStyle = {};
 
           if (route.name === HomeScreenName) {
             iconName = focused ? 'home' : 'home-outline';
@@ -39,12 +45,27 @@ export function MainTabNavigator() {
             iconName = focused ? 'search' : 'search-outline';
           } else if (route.name === BookScreenName) {
             iconName = focused ? 'book' : 'book-outline';
+            sizeIcon = 42;
           } else if (route.name === ShelfScreenName) {
             iconName = focused ? 'library' : 'library-outline';
           } else if (route.name === ProfileScreenName) {
             iconName = focused ? 'person' : 'person-outline';
           }
-          return <Ionicons name={iconName} size={28} color={'black'} />;
+
+          if (focused) {
+            underlineStyle = {
+                borderBottomWidth: 2,
+                borderBottomColor: 'black'  // Adjust the color to match your tab bar's theme
+            };
+        }
+
+        return (
+          <View style={{ alignItems: 'center' }}>
+              <Ionicons name={iconName} size={sizeIcon} color={'black'} />
+              <View style={[{ width: sizeIcon }, underlineStyle]} />
+          </View>
+      );
+
         },
         tabBarStyle: {
           backgroundColor: '#3A8D5B',
@@ -60,11 +81,13 @@ export function MainTabNavigator() {
           borderRadius: 10,
           
         },
+
         tabBarLabelStyle: {
           fontSize: 0,
         },
         tabBarActiveTintColor: 'black',
         tabBarInactiveTintColor: 'black',
+      
       })}
     >
       <Tab.Screen name={HomeScreenName} component={HomeScreen} />
@@ -72,6 +95,8 @@ export function MainTabNavigator() {
       <Tab.Screen name={BookScreenName} component={BookScreen} />
       <Tab.Screen name={ShelfScreenName} component={ShelfScreen} />
       <Tab.Screen name={ProfileScreenName} component={ProfileScreen} />
+      <Tab.Screen name="Donate" component={DonateScreen} options={{ tabBarButton: () => null }} />
+      <Tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarButton: () => null }} />
     </Tab.Navigator>
   );
 }
@@ -88,6 +113,7 @@ export default function MainContainer() {
       >
         <Stack.Screen name="MainTabs" component={MainTabNavigator} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="Donate" component={DonateScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
