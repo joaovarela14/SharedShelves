@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Alert, StyleSheet, Image, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Importe o Ionicons
 
 export default function HomeScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchHistory, setSearchHistory] = useState([]); // Novo estado para armazenar o histórico de buscas
+  const topBooks = [
+    { source: require('../../assets/harrypotterbook.jpg') },
+    { source: require('../../assets/portatrancada.jpeg') },
+    { source: require('../../assets/stephenking.jpg') },
+    { source: require('../../assets/acriada.jpeg') },
+  ];
 
   const handleSearch = () => {
     if (!searchQuery.trim()) {
@@ -25,6 +31,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
+    // SEARCH SCREEN
     <View style={styles.container}>
       <Text style={{ fontSize: 25, fontWeight: 'bold' }}>SEARCH</Text> 
 
@@ -42,44 +49,50 @@ export default function HomeScreen({ navigation }) {
         />
         <TouchableOpacity
           onPress={handleSearch}
-          style={{
-            backgroundColor: 'blue',
-            padding: 8,
-            borderRadius: 5,
-            marginLeft: 10,
-          }}>
-          <Text style={{ color: 'white', fontSize: 14 }}>Enter</Text>
+          style={styles.button}>
+          <Text style={styles.buttonText}>Enter</Text>
         </TouchableOpacity>
 
       </View>
-
-
 
       <View style={{flexDirection: 'row'}}>
-        <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Recent</Text> 
-        <TouchableOpacity onPress={clearSearchHistory} style={styles.button}>
-          <Text style={styles.buttonText}>Clear History</Text>
+        <Text style={{ fontSize: 25, fontWeight: 'bold', marginTop: 10,}}>Recent</Text> 
+        <TouchableOpacity onPress={clearSearchHistory} style={styles.buttonclear}>
+          <Text style={styles.buttonText}>Clear</Text>
         </TouchableOpacity>
       </View>
 
-
-      <View style={styles.historyContainer}>
-        {searchHistory.map((query, index) => (
-          <View key={index} style={styles.historyItem}>
-            <Text style={styles.queryText}>{query}</Text>
-            <TouchableOpacity onPress={() => removeSearchItem(index)} style={styles.deleteButton}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
+        {searchHistory.slice(0, 5).map((search, index) => (
+          <TouchableOpacity key={index} onPress={() => removeSearchItem(index)} style={styles.recentSearchItem}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.recentSearchText}>{search}</Text>
               <Ionicons name="close-circle" size={24} color="red" />
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
 
-      <View style={{ marginTop: 20 }}>
+      <View>
         <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Latest Search</Text>
         {searchHistory.length > 0 && (
-          <Text style={styles.latestSearch}>{searchHistory[searchHistory.length - 1]}</Text>
+          <View style={styles.card}>
+            <Image 
+              source={require('../../assets/SharedShelves.png')}style={styles.image}
+            />
+            <Text style={styles.cardText}>{searchHistory[searchHistory.length - 1]}</Text>
+          </View>
         )}
       </View>
+
+      <Text style={styles.sectionTitle}>Top Book Search</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollViewContainer}>
+        {topBooks.map((book, index) => (
+          <View key={index} style={styles.bookCard}>
+            <Image source={book.source} style={styles.bookCover} />
+          </View>
+        ))}
+        </ScrollView>
       
     </View>
 
@@ -89,11 +102,10 @@ export default function HomeScreen({ navigation }) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      
-
       padding: 30,
       marginTop: 30,
     },
+
     input: {
       width: '100%',
       marginBottom: 10,
@@ -101,11 +113,22 @@ export default function HomeScreen({ navigation }) {
       borderWidth: 1,
       borderColor: 'gray',
     },
+    
     button: {
-      backgroundColor: 'blue',
-      padding: 10,
+      fontSize: 16,
+      backgroundColor: '#3A8D5B',
+      padding: 8,
       borderRadius: 5,
+      marginLeft: 37,
+    },
+
+    buttonclear: {
+      backgroundColor: 'red',
+      padding: 8,
+      borderRadius: 5,
+      marginTop: 10,
       marginBottom: 10,
+      marginLeft: 205,
       alignItems: 'flex-end'
     },
     
@@ -130,7 +153,78 @@ export default function HomeScreen({ navigation }) {
     },
     deleteButton: {
       marginLeft: 10,
-    }
+    },
+
+    //RECENT SEARCH
+    recentSearchItem: {
+      margin: 5,
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+      backgroundColor: '#ECE5DF',
+      borderRadius: 20,
+      justifyContent: 'center',
+      height: 40,
+      
+    },
+
+    recentSearchText: {
+      fontSize: 18,
+      marginRight: 10,
+    },
+    
+    //LATEST SEARCH
+    card: {
+      flexDirection: 'row', // Alinha a imagem e o texto horizontalmente
+      alignItems: 'center', // Centraliza verticalmente os itens dentro do card
+      backgroundColor: '#fff', // Cor de fundo do card
+      borderRadius: 8, // Bordas arredondadas
+      padding: 10, // Espaçamento interno do card
+      shadowColor: '#000', // Sombra
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+      marginTop: 10, // Espaçamento acima do card
+    },
+    image: {
+      width: 45, // Largura adaptada para uma capa de livro
+      height: 60, // Altura maior para formato de livro
+      marginRight: 10, // Espaçamento à direita da imagem
+    },
+    cardText: {
+      fontSize: 18, // Tamanho do texto
+      fontWeight: 'bold', // Negrito
+      flex: 1, // Ocupa o espaço restante no card
+    },
+
+    //TOP BOOK SEARCH
+    sectionTitle: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      marginTop: 20,
+      marginBottom: 10,
+    },
+    scrollViewContainer: {
+      flexDirection: 'row',
+    },
+    bookCard: {
+      backgroundColor: '#fff',
+      marginRight: 5,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+      elevation: 3,
+      width: 107, // Largura do card, ajuste conforme necessário
+      height: 170, // Altura do card, ajuste conforme necessário
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    bookCover: {
+      width: '100%',
+      height: '100%', // Ajuste para 80% da altura do card para deixar espaço para o título
+    },
+
   });
 
 
