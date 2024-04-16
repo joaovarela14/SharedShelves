@@ -2,11 +2,23 @@ import * as React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Lottie from 'lottie-react-native';
 
 export default function BooksScreen({ navigation }) {
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.navigate('Donate')}>
+
+            <Lottie
+                source={require('../../assets/book.json')}
+                autoPlay
+                loop
+                style={styles.animation}
+            />
+
+            <Text style={{ fontSize: 30, fontWeight: 'bold', marginTop: 5, textDecorationLine: 'underline', marginBottom:20 }}>SharedShelves</Text>
+
+            <TouchableOpacity 
+                onPress={() => navigation.navigate('Donate')} >
                 
                 <LinearGradient
                     
@@ -42,7 +54,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center', // This will distribute the buttons evenly vertically
+        justifyContent: 'top', // This will distribute the buttons evenly vertically
         backgroundColor: '#fff',
     },
     Button: {
@@ -53,18 +65,26 @@ const styles = StyleSheet.create({
         margin: 10,
         justifyContent: 'center', // Center content vertically
         overflow: 'hidden',
-        
+        elevation: 10,
+        shadowColor: '#000', // Shadow for 3D effect
+        shadowOffset: { width: 5, height: 5 },
+        shadowOpacity: 0.75,
+        shadowRadius: 15,
+        borderColor: '#000',
 
+        
     },
     ButtonText1: {
         color: '#000',
         fontSize: 25,
         textAlign: 'left', 
+        fontWeight: 'bold',
     },
     ButtonText2: {
         color: '#000',
         fontSize: 25,
-        textAlign: 'right', // Changed to center text
+        textAlign: 'right',
+        fontWeight: 'bold',
     },
     aquirebuttonText: {
         color: '#000',
@@ -74,8 +94,8 @@ const styles = StyleSheet.create({
         
     },
     aquireButton: {
-        marginTop: 50, // adds space above the button
-        marginBottom: 50, // adds space below the button
+        marginTop: 30, // adds space above the button
+        marginBottom: 30, // adds space below the button
         width: 300,
         height: 90,
         borderRadius: 8,
@@ -83,5 +103,11 @@ const styles = StyleSheet.create({
         margin: 10,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    animation: {
+        width: '100%',
+        height: 150,   
+        justifyContent: 'top',
+        alignItems: 'top',
     },
 });
