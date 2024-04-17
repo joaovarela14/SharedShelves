@@ -13,6 +13,9 @@ import SearchScreen from './screens/SearchScreen';
 import ShelfScreen from './screens/ShelfScreen';
 import SettingsScreen from './screens/Settings';
 import DonateScreen from './screens/Donate';
+import FirstPage from './screens/FirstPage';
+import Login from './screens/Login';
+import Register from './screens/Register';
 
 // Screen names
 const HomeScreenName = 'Home';
@@ -24,12 +27,14 @@ const ShelfScreenName = 'Shelf';
 
 
 
+
 const Stack = createStackNavigator();
 
 export function MainTabNavigator() {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
+      initialRouteName='FirstPage'
       
       screenOptions={({ route }) => ({
         headerShown: false,
@@ -111,9 +116,13 @@ export default function MainContainer() {
 
         }}
       >
+        <Stack.Screen name="FirstPage" component={FirstPage} />
         <Stack.Screen name="MainTabs" component={MainTabNavigator} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Donate" component={DonateScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
       </Stack.Navigator>
     </NavigationContainer>
   );
