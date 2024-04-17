@@ -20,39 +20,52 @@ export default function DonateScreen({ navigation }) {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorAuthor, setErrorAuthor] = useState('');
+  const [errorISBN, setErrorISBN] = useState('');
+  const [errorBookState, setErrorBookState] = useState('');
+  const [errorCity, setErrorCity] = useState('');
+  const [errorStore, setErrorStore] = useState('');
 
   const checkFields = () => {
     const details = `Title: ${title}\nAuthor: ${author}\nISBN: ${isbn}\nBook State: ${bookState}\nDate: ${date.toDateString()}`;
+    let hasError = false;
+    // Resetar mensagens de erro
+    setErrorTitle('');
+    setErrorAuthor('');
+    setErrorISBN('');
+    setErrorBookState('');
+    setErrorCity('');
+    setErrorStore('');
+
     if (!title.trim()) {
-      Alert.alert("Validation Error", "Please enter a title.");
-      return; // Stop further execution to focus on one error at a time
+      setErrorTitle("Please enter a title.");
+      hasError = true;
     }
     if (!author.trim()) {
-      Alert.alert("Validation Error", "Please enter an author's name.");
-      return; // Stop further execution to focus on one error at a time
+      setErrorAuthor("Please enter an author's name.");
+      hasError = true;
     }
     if (!isbn.trim()) {
-      Alert.alert("Validation Error", "Please enter an ISBN.");
-      return; // Stop further execution to focus on one error at a time
-    }
-    if (isNaN(isbn)) {
-      Alert.alert("Validation Error", "ISBN must be a numeric value.");
-      return; // Stop further execution to focus on one error at a time
+      setErrorISBN("Please enter an ISBN.");
+      hasError = true;
+    } else if (isNaN(isbn)) {
+      setErrorISBN("ISBN must be a numeric value.");
+      hasError = true;
     }
     if (!bookState.trim()) {
-      Alert.alert("Validation Error", "Please specify the book state.");
-      return; // Stop further execution to focus on one error at a time
+      setErrorBookState("Please specify the book state.");
+      hasError = true;
     }
     if (selectedCity === 'city') {
-      Alert.alert("Validation Error", "Please select a city from the list.");
-      return; // Stop further execution to focus on one error at a time
+      setErrorCity("Please select a city from the list.");
+      hasError = true;
     }
     if (selectedStore === 'Store') {
-      Alert.alert("Validation Error", "Please select a store from the list.");
-      return; // Stop further execution to focus on one error at a time
-    
-    } else {
-      // If all validations pass
+      setErrorStore("Please select a store from the list.");
+      hasError = true;
+    }
+    if (!hasError) {      // If all validations pass
       Alert.alert("Your book is going to be analyzed by our team. Thank you!", details,
         [
           { text: "OK", onPress: () => resetFieldsAndNavigate() }
@@ -110,7 +123,11 @@ export default function DonateScreen({ navigation }) {
     setShowDatePicker(false);
     setDate(currentDate);
   };
-  
+  const ErrorMessage = ({ message }) => {
+    return (
+      <Text style={styles.errorText}>{message}</Text>
+    );
+  };
       return (
           <View style={styles.container}>
             <ScrollView vertical showsVerticalScrollIndicator={false}>
@@ -122,15 +139,16 @@ export default function DonateScreen({ navigation }) {
               <Picker
                   selectedValue={selectedCity}
                   style={styles.picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                      setSelectedCity(itemValue);
-                      setSelectedStore(stores[itemValue][0]); // Reset store selection on city change
+                  onValueChange={(itemValue) => {
+                    setSelectedCity(itemValue);
+                    setSelectedStore(stores[itemValue][0]); // Reset store selection on city change
                   }}>
                   {Object.entries(cities).map(([key, value]) => (
                       <Picker.Item key={key} label={value} value={key} />
                   ))}
               </Picker>
-  
+              <Text style={{color: 'red',fontSize: 14,flex:1, marginBottom:10, marginLeft:20}}>{errorCity}</Text>
+
               <Picker
                   selectedValue={selectedStore}
                   style={styles.picker}
@@ -139,10 +157,15 @@ export default function DonateScreen({ navigation }) {
                       <Picker.Item key={index} label={store} value={store} />
                   ))}
               </Picker>
+              <ErrorMessage message={errorStore} />
+
 
               <Text style={{ marginLeft: 10, fontSize: 20, fontWeight: 'bold', marginTop: 5, marginBottom: 20 }}>Informations about the book:</Text>
 
-                <Text style={styles.label}>Title:</Text>
+                <View style={styles.labelContainer}>
+                  <Text style={styles.label}>Title:</Text>
+                  <Text style={styles.errorText}>{errorTitle}</Text>
+                </View>
                 <TextInput
                   style={styles.input}
                   placeholder="Insert book title"
@@ -151,8 +174,10 @@ export default function DonateScreen({ navigation }) {
                 />
 
 
-
+              <View style={styles.labelContainer}>
                 <Text style={styles.label}>Author:</Text>
+                <Text style={styles.errorText}>{errorAuthor}</Text>
+              </View>
                 <TextInput
                   style={styles.input}
                   placeholder="Insert book author"
@@ -160,7 +185,10 @@ export default function DonateScreen({ navigation }) {
                   onChangeText={setAuthor}
                 />
 
-                <Text style={styles.label}>ISBN:</Text>
+                <View style={styles.labelContainer}>
+                  <Text style={styles.label}>ISBN:</Text>
+                  <Text style={styles.errorText}>{errorISBN}</Text>
+                </View>
                 <TextInput
                   keyboardType='numeric'
                   style={styles.input}
@@ -169,7 +197,10 @@ export default function DonateScreen({ navigation }) {
                   onChangeText={setISBN}
                 />
 
-                <Text style={styles.label}>Book State:</Text>
+                <View style={styles.labelContainer}>
+                  <Text style={styles.label}>Book State:</Text>
+                  <Text style={styles.errorText}>{errorBookState}</Text>
+                </View>
                 <View style={styles.bookStateContainer}>
                   <TouchableOpacity
                     style={[
@@ -202,7 +233,7 @@ export default function DonateScreen({ navigation }) {
                     <Text style={styles.bookStateText}>Used</Text>
                   </TouchableOpacity>
                 </View>
-
+                
                 <Text style={styles.label}>Date:</Text>
                   <View>
                   <TouchableOpacity
@@ -216,7 +247,6 @@ export default function DonateScreen({ navigation }) {
 
 
                 </View>
-
 
                 <View style={styles.centeredcontainer}>
                 <TouchableOpacity style={styles.buttonContainer} onPress={() => { checkFields(); }}>
@@ -249,6 +279,12 @@ export default function DonateScreen({ navigation }) {
   };
   
   const styles = StyleSheet.create({
+      errorText: {
+        color: 'red',
+        fontSize: 14,
+        flex:1, 
+        marginBottom:10,
+      },
       container: {
           flex: 1,
           justifyContent: 'center',
@@ -276,6 +312,11 @@ export default function DonateScreen({ navigation }) {
         marginBottom: 10,
         marginLeft: 15,
       },
+      labelContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
 
     headerText: {
         fontSize: 30,
@@ -286,6 +327,7 @@ export default function DonateScreen({ navigation }) {
         marginLeft: 10
     },
     input: {
+      flex:1,
       borderWidth: 1,
       borderColor: 'gray',
       padding: 10,
