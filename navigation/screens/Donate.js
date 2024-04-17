@@ -26,6 +26,7 @@ export default function DonateScreen({ navigation }) {
   const [errorBookState, setErrorBookState] = useState('');
   const [errorCity, setErrorCity] = useState('');
   const [errorStore, setErrorStore] = useState('');
+  const [errorDate, setErrorDate] = useState('');
 
   const checkFields = () => {
     const details = `Title: ${title}\nAuthor: ${author}\nISBN: ${isbn}\nBook State: ${bookState}\nDate: ${date.toDateString()}`;
@@ -37,6 +38,7 @@ export default function DonateScreen({ navigation }) {
     setErrorBookState('');
     setErrorCity('');
     setErrorStore('');
+    setErrorDate('');
 
     if (!title.trim()) {
       setErrorTitle("Please enter a title.");
@@ -65,6 +67,11 @@ export default function DonateScreen({ navigation }) {
       setErrorStore("Please select a store from the list.");
       hasError = true;
     }
+    if (date < new Date()) {
+      setErrorDate("Please select a valid date.");
+      hasError = true;
+    }
+
     if (!hasError) {      // If all validations pass
       Alert.alert("Your book is going to be analyzed by our team. Thank you!", details,
         [
@@ -86,10 +93,10 @@ export default function DonateScreen({ navigation }) {
     setSelectedCity('city');
     setSelectedStore('store');
 
-    // Navigate to the Book page
-    navigation.navigate('Book');  // Ensure 'Book' is the correct name of the route you want to navigate to
+
+    navigation.navigate('Book'); 
   };
-  // Cidades de Portugal e lojas exemplo para cada cidade
+
   const cities = {
       'city': 'City', // Default value
       'lisboa': 'Lisboa',
@@ -106,16 +113,17 @@ export default function DonateScreen({ navigation }) {
 
   const stores = {
       'city': ['Store'], // Default value
-      'lisboa': ['Loja A', 'Loja B', 'Loja C'],
-      'porto': ['Loja D', 'Loja E'],
-      'coimbra': ['Loja F', 'Loja G', 'Loja H'],
-      'braga': ['Loja I', 'Loja J'],
-      'aveiro': ['Loja K', 'Loja L'],
-      'faro': ['Loja M', 'Loja N'],
-      'leiria': ['Loja O', 'Loja P'],
-      'setubal': ['Loja Q', 'Loja R'],
-      'viseu': ['Loja S', 'Loja T'],
-      'viana-do-castelo': ['Loja U', 'Loja V']
+      'lisboa': ['Store', 'El Corte Inglés', 'Fnac', 'Leroy Merlin'],
+      'porto': ['Store', 'Via Catarina Shopping', 'Mercado Bom Sucesso', 'NorteShopping'],
+      'coimbra': ['Store', 'Alma Shopping', 'Forum Coimbra', 'Coimbra Retail Park'],
+      'braga': ['Store', 'Braga Parque', 'Minho Center', 'Nova Arcada'],
+      'aveiro': ['Store', 'Forum Aveiro', 'Glicínias Plaza', 'Aveiro Center'],
+      'faro': ['Store', 'Forum Algarve', 'Mar Shopping Algarve', 'IKEA Algarve'],
+      'leiria': ['Store', 'LeiriaShopping', 'Leiria Centro', 'Mar Shopping Leiria'],
+      'setubal': ['Store', 'Alegro Setúbal', 'Rio Sul Shopping', 'Forum Barreiro'],
+      'viseu': ['Store', 'Palácio do Gelo Shopping', 'Viseu Retail Park', 'Forum Viseu'],
+      'viana-do-castelo': ['Store', 'Estação Viana Shopping', 'Viana Market', 'Space Viana Shopping']
+
   };
 
   const onChange = (event, selectedDate) => {
@@ -132,10 +140,17 @@ export default function DonateScreen({ navigation }) {
           <View style={styles.container}>
             <ScrollView vertical showsVerticalScrollIndicator={false}>
               <View style={styles.headerText}>
-                  <Text style={{ fontSize: 30, fontWeight: 'bold', marginTop: 5, textDecorationLine: 'underline', marginBottom:20 }}>Donate Book</Text>
+                  <Text style={{ fontSize: 30, fontWeight: 'bold', marginTop: 5, textDecorationLine: 'underline' }}>Donate Book</Text>
+              </View>
+
+              <View >
+                  <Text style={styles.informative} >Fill out the following parameters.
+                  Our team will analyze your book(s) to assign you a fair and considered point offer.
+                  This way, you won't have to wait for a lengthy and tedious evaluation when you go to donate your book(s). </Text>
               </View>
 
               <Text style={{ marginLeft: 10, fontSize: 20, fontWeight: 'bold', marginTop: 5, marginBottom: 20 }}>Select your city and store:</Text>
+
               <Picker
                   selectedValue={selectedCity}
                   style={styles.picker}
@@ -158,6 +173,7 @@ export default function DonateScreen({ navigation }) {
                   ))}
               </Picker>
               <ErrorMessage message={errorStore} />
+              
 
 
               <Text style={{ marginLeft: 10, fontSize: 20, fontWeight: 'bold', marginTop: 5, marginBottom: 20 }}>Informations about the book:</Text>
@@ -233,8 +249,12 @@ export default function DonateScreen({ navigation }) {
                     <Text style={styles.bookStateText}>Used</Text>
                   </TouchableOpacity>
                 </View>
+
+                <View style={styles.labelContainer}>  
+                    <Text style={styles.label}>Date:</Text>
+                    <Text style={styles.errorText}>{errorDate}</Text>
+                </View>
                 
-                <Text style={styles.label}>Date:</Text>
                   <View>
                   <TouchableOpacity
                     style={[styles.textBar, { flex: 1, marginLeft: 15 }]} // Flex grow equally, margin for gap
@@ -242,6 +262,7 @@ export default function DonateScreen({ navigation }) {
                   >
                     <Text style={styles.dateText}>{date.toDateString()}</Text>
                     <MaterialCommunityIcons name="calendar" size={24} color="black" style={{ marginLeft: 10 }} />
+                    
 
                   </TouchableOpacity>
 
@@ -284,6 +305,7 @@ export default function DonateScreen({ navigation }) {
         fontSize: 14,
         flex:1, 
         marginBottom:10,
+        marginLeft:20
       },
       container: {
           flex: 1,
@@ -293,9 +315,20 @@ export default function DonateScreen({ navigation }) {
           paddingBottom:95
       },
       picker: {
-          height: 50,
-          width: 168
-      },
+        backgroundColor: '#fff',
+        height: 50,
+        width: 200,
+        marginLeft: 15,
+        borderColor: 'black',
+        borderWidth: 5,  // You need to specify borderWidth to show the border color
+        borderRadius: 55, // Correct property for rounding corners
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 }, // Specifies the shadow's offset
+        shadowOpacity: 0.5, // How transparent the shadow is
+        shadowRadius: 3,  // The blur radius of the shadow
+        elevation: 4, // This is necessary for Android to show shadow
+
+    },
       inputRow: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -368,8 +401,8 @@ export default function DonateScreen({ navigation }) {
       marginRight: 10,
     },
     selected: {
-      backgroundColor: 'green', // Change this color to match your app's theme
-      borderColor: 'blue',
+      backgroundColor: 'lightgray', // Change this color to match your app's theme
+      borderColor: 'black',
     },
     bookStateText: {
       color: 'black', // Text color for selected state
@@ -380,15 +413,7 @@ export default function DonateScreen({ navigation }) {
       fontSize: 18,
       textDecorationLine: 'underline',
     },
-    pickerContainer: {
-      borderRadius: 8,
-      overflow: 'hidden', 
-      elevation: 10,
-      shadowColor: '#000', // Shadow for 3D effect
-      borderRadius: 5,
-      padding: 10,
 
-    },
     dateTimePicker: {
       elevation: 10,
       shadowColor: '#000', // Shadow for 3D effect
@@ -424,6 +449,15 @@ export default function DonateScreen({ navigation }) {
       justifyContent: 'center',
       alignItems: 'center',
     },
+    informative: {
+      fontSize: 15,
+      marginLeft: 10,
+      marginRight: 10,
+
+      color: 'gray',
+      textAlign: 'justify',
+
+    },
+
   });
   
-
