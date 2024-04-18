@@ -79,9 +79,9 @@ export default function Register({ navigation }) {
                 fullname,
             };
             console.log(data);
+            navigation.navigate('MainTabs')};
             // Aqui você faria o registro do usuário (e.g., enviar para um servidor)
         }
-    }
 
 
     return (
