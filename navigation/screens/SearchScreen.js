@@ -1,16 +1,36 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Alert, 
+StyleSheet, Image, ScrollView, FlatList, Modal  } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Importe o Ionicons
+import { useGlobalState } from './GlobalContext';
 
-export default function HomeScreen({ navigation }) {
+import booksData from '../../books.json'; 
+
+export default function SearchScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchHistory, setSearchHistory] = useState([]); // Novo estado para armazenar o histórico de buscas
+  const [searchResults, setSearchResults] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+
   const topBooks = [
     { source: require('../../assets/harrypotterbook.jpg') },
     { source: require('../../assets/portatrancada.jpeg') },
     { source: require('../../assets/stephenking.jpg') },
     { source: require('../../assets/acriada.jpeg') },
   ];
+
+  //METER NO GLOBAL CONTEXT PARA USAR NO SEARCH E NO DETAILS  
+  const imageMap = {
+    'fnacLogo': require('../../assets/fnac.png'),
+    'bertrandLogo': require('../../assets/bertrand.png'),
+    'wookLogo': require('../../assets/wook.jpg'),
+    'acriada': require('../../assets/acriada.jpeg'),
+    'harrypotterbook': require('../../assets/harrypotterbook.jpg'),
+    'portatrancada': require('../../assets/portatrancada.jpeg'),
+    'stephenking': require('../../assets/stephenking.jpg'),
+    // Add other images as needed
+  };
+
 
   const handleSearch = () => {
     if (!searchQuery.trim()) {
@@ -19,7 +39,23 @@ export default function HomeScreen({ navigation }) {
     }
     console.log("Search query:", searchQuery);
     setSearchHistory(prevHistory => [...prevHistory, searchQuery]);
-    setSearchQuery('');
+
+    // Divida a string de pesquisa em palavras-chave
+    const keywords = searchQuery.toLowerCase().split(' ');
+
+    // Filtrar os dados dos livros para encontrar correspondências
+    const results = booksData.filter(book =>
+      keywords.some(keyword =>
+        book.title.toLowerCase().includes(keyword) ||
+        book.author.toLowerCase().includes(keyword) ||
+        (book.genres && book.genres.some(genre => genre.toLowerCase().includes(keyword)))
+      )
+    );
+    console.log('Search results:', results);
+
+    setSearchResults(results); // Atualiza o estado com os resultados da pesquisa
+    setSearchQuery(''); // Limpa a pesquisa atual
+    setModalVisible(true); // Exibe o modal com os resultados
   };
 
   const clearSearchHistory = () => {
@@ -28,6 +64,12 @@ export default function HomeScreen({ navigation }) {
 
   const removeSearchItem = index => {
     setSearchHistory(prevHistory => prevHistory.filter((item, idx) => idx !== index));
+  };
+
+  const { setSelectedBookIndex } = useGlobalState();
+
+  const closeModal = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -85,13 +127,63 @@ export default function HomeScreen({ navigation }) {
         )}
       </View>
 
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <FlatList
+              data={searchResults}
+              keyExtractor={item => item.id.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    closeModal();
+                    setSelectedBookIndex(item.id);
+                    navigation.navigate('BookDetails');
+                    console.log('Selected book:', item);
+
+                  }}
+                  style={styles.modalItem}
+                >
+                  <Image source={imageMap[item.cover]} style={styles.modalImage} />
+                  <View style={styles.modalTextContainer}>
+                    <Text style={styles.modalTitle}>{item.title}</Text>
+                    <Text style={styles.modalAuthor}>{item.author}</Text>
+                    <Text style={styles.modalGenres}>{item.genres.join(', ')}</Text>
+                    <Text style={styles.modalRating}>{item.rating} ★</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+            <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+              <Text>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
       <Text style={styles.sectionTitle}>Top Book Search</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollViewContainer}>
+          
         {topBooks.map((book, index) => (
-          <View key={index} style={styles.bookCard}>
+        <TouchableOpacity
+          key={index} // A propriedade key deve ser aqui
+          onPress={() => {
+            setSelectedBookIndex(index);
+            navigation.navigate('BookDetails');
+          }}
+          style={styles.touchableArea}
+        >
+          <View style={styles.bookCard}>
             <Image source={book.source} style={styles.bookCover} />
           </View>
-        ))}
+        </TouchableOpacity>
+  ))}
+        
         </ScrollView>
       
     </View>
@@ -225,6 +317,61 @@ export default function HomeScreen({ navigation }) {
       height: '100%', // Ajuste para 80% da altura do card para deixar espaço para o título
     },
 
+    //MODAL
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 22
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "flex-start",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5
+    },
+    modalItem: {
+      flexDirection: 'row',
+      marginBottom: 15,
+      width: 300,
+    },
+    modalImage: {
+      width: 100,
+      height: 150,
+      resizeMode: 'cover',
+      marginRight: 10,
+    },
+    modalTextContainer: {
+      justifyContent: 'space-around',
+    },
+    modalTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    modalAuthor: {
+      fontSize: 14,
+      color: 'grey',
+    },
+    modalGenres: {
+      fontSize: 14,
+    },
+    modalRating: {
+      fontSize: 14,
+    },
+    closeButton: {
+      backgroundColor: '#DDDDDD',
+      padding: 10,
+      elevation: 2,
+    },
   });
 
 

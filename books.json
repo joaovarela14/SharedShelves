@@ -1,0 +1,278 @@
+[
+  {
+    "id": 1,
+    "title": "Harry Potter e a Pedra Filosofal",
+    "author": "J.K. Rowling",
+    "rating": 4.9,
+    "genres": ["Fantasy", "Young Adult"],
+    "description": "The first book in the Harry Potter series, introducing Harry Potter and his first year at Hogwarts School of Witchcraft and Wizardry.",
+    "cover": "harrypotterbook",
+    "stores": [
+      { "name": "Fnac", "price": "9.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "10.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "8.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+
+  {
+    "id": 2,
+    "title": "A Porta Trancada",
+    "author": "Freida McFadden",
+    "rating": 4.5,
+    "genres": ["Thriller", "Mystery"],
+    "description": "A gripping psychological thriller that keeps you on the edge of your seat.",
+    "cover": "portatrancada",
+    "stores": [
+      { "name": "Fnac", "price": "13.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "14.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "12.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+
+  {
+    "id": 3,
+    "title": "Outsider",
+    "author": "Stephen King",
+    "rating": 4.6,
+    "genres": ["Horror", "Fiction"],
+    "description": "An unspeakable crime. A confounding investigation. The latest from legendary author Stephen King.",
+    "cover": "stephenking",
+    "stores": [
+      { "name": "Fnac", "price": "15.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "16.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "14.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+
+  {
+    "id": 4,
+    "title": "A Criada",
+    "author": "Freida Mcfadden",
+    "rating": 4.7,
+    "genres": ["Romance", "Sci-Fi"],
+    "description": "The Housemaid is a domestic psychological thriller about a live-in housemaid with a secret past who discovers that her new employers have secrets of their own. It heavily relies on several tropes, but the ends redeems the story a bit.",
+    "cover": "acriada",
+    "stores": [
+      { "name": "Fnac", "price": "12.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "15.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "17.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "rating": 4.4,
+    "genres": ["Classic", "Historical Fiction"],
+    "description": "A novel about the Roaring Twenties and the elusive pursuit of the American Dream.",
+    "cover": "portatrancada",
+    "stores": [
+      { "name": "Fnac", "price": "14.99€", "logo": "fnacLogo" },
+      { "name": "Bertrand", "price": "13.99€", "logo": "bertrandLogo" },
+      { "name": "Wook", "price": "18.99€", "logo": "wookLogo" }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Nineteen Eighty-Four",
+    "author": "George Orwell",
+    "rating": 4.8,
+    "genres": ["Dystopian", "Political Fiction"],
+    "description": "A chilling dystopia where Big Brother is always watching, and individuality is crushed.",
+    "cover": "nineteeneightyfour",
+    "stores": [
+      { "name": "Fnac", "price": "11.99€", "logo": "fnacLogo" },
+      { "name": "Bertrand", "price": "10.99€", "logo": "bertrandLogo" },
+      { "name": "Wook", "price": "16.99€", "logo": "wookLogo" }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Brave New World",
+    "author": "Aldous Huxley",
+    "rating": 4.2,
+    "genres": ["Dystopian", "Science Fiction"],
+    "description": "A prophetic novel that has become a pervasive symbol of the modern technological society.",
+    "cover": "bravenewworld",
+    "stores": [
+      { "name": "Fnac", "price": "9.99€", "logo": "fnacLogo" },
+      { "name": "Bertrand", "price": "8.99€", "logo": "bertrandLogo" },
+      { "name": "Wook", "price": "15.99€", "logo": "wookLogo" }
+    ]
+  },
+
+  
+  {
+    "id": 8,
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "rating": 4.3,
+    "genres": ["Classic", "Fiction"],
+    "description": "A novel about a teenager who is expelled from his prep school and spends three days in New York City.",
+    "cover": "thecatcherintherye",
+    "stores": [
+      { "name": "Fnac", "price": "10.99€", "logo": "fnacLogo" },
+      { "name": "Bertrand", "price": "9.99€", "logo": "bertrandLogo" },
+      { "name": "Wook", "price": "14.99€", "logo": "wookLogo" }
+    ]
+  },
+
+  {
+    "id": 9,
+    "title": "1984",
+    "author": "George Orwell",
+    "rating": 4.8,
+    "genres": ["Fiction", "Dystopian"],
+    "description": "A dystopian novel set in a totalitarian regime of the future, describing the life of Winston Smith, a low-ranking member of 'the Party'.",
+    "cover": "1984cover",
+    "stores": [
+      { "name": "Fnac", "price": "11.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "12.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "10.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "rating": 4.9,
+    "genres": ["Romance", "Classic"],
+    "description": "A romantic novel of manners that follows the character of Elizabeth Bennet as she deals with issues of manners, upbringing, morality, education, and marriage.",
+    "cover": "prideprejudicecover",
+    "stores": [
+      { "name": "Fnac", "price": "8.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "7.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "9.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+
+  {
+    "id": 12,
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "rating": 4.8,
+    "genres": ["Fiction", "Drama"],
+    "description": "A novel by Harper Lee published in 1960. Instantly successful, widely read in high schools and middle schools in the United States.",
+    "cover": "tokillamockingbirdcover",
+    "stores": [
+      { "name": "Fnac", "price": "9.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "10.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "11.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "rating": 4.9,
+    "genres": ["Fantasy"],
+    "description": "A children's fantasy novel by J.R.R. Tolkien, it was published on 21 September 1937 to wide critical acclaim.",
+    "cover": "hobbitcover",
+    "stores": [
+      { "name": "Fnac", "price": "7.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "6.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "8.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 14,
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "rating": 4.5,
+    "genres": ["Fiction", "Coming-of-age"],
+    "description": "The novel's protagonist Holden Caulfield has become an icon for teenage rebellion.",
+    "cover": "catcherintheryecover",
+    "stores": [
+      { "name": "Fnac", "price": "12.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "13.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "11.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 15,
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "rating": 4.7,
+    "genres": ["Quest", "Adventure", "Fantasy"],
+    "description": "A philosophical book that has sold more than 150 million copies worldwide, inspiring people to follow their dreams.",
+    "cover": "alchemistcover",
+    "stores": [
+      { "name": "Fnac", "price": "9.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "10.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "8.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+
+  {
+    "id": 17,
+    "title": "Crime and Punishment",
+    "author": "Fyodor Dostoevsky",
+    "rating": 4.8,
+    "genres": ["Philosophical", "Crime", "Fiction"],
+    "description": "A novel by the Russian author Fyodor Dostoevsky. It was first published in the literary journal The Russian Messenger in twelve monthly installments during 1866.",
+    "cover": "crimepunishmentcover",
+    "stores": [
+      { "name": "Fnac", "price": "14.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "13.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "15.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 18,
+    "title": "The Picture of Dorian Gray",
+    "author": "Oscar Wilde",
+    "rating": 4.7,
+    "genres": ["Classic", "Gothic", "Philosophical"],
+    "description": "A novel by Oscar Wilde, published in 1890. The Picture of Dorian Gray is considered one of the last works of classic gothic horror fiction with a strong Faustian theme.",
+    "cover": "doriangraycover",
+    "stores": [
+      { "name": "Fnac", "price": "12.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "13.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "11.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+
+  {
+    "id": 19,
+    "title": "My Lovely Wife",
+    "author": "Freida McFadden",
+    "rating": 4.5,
+    "genres": ["Crime", "Thriller"],
+    "description": "A dark and twisty thriller about a seemingly perfect marriage that is anything but what it appears. Secrets, lies, and a deadly obsession paint a different picture of domestic bliss.",
+    "cover": "mylovelywifecover",
+    "stores": [
+      { "name": "Fnac", "price": "17.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "19.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "18.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 22,
+    "title": "Overkill",
+    "author": "Freida McFadden",
+    "rating": 4.7,
+    "genres": ["Thriller", "Suspense"],
+    "description": "When a doctor’s life is shattered by a violent attack that leaves her husband dead, she struggles to rebuild and to confront the shadows that may destroy her future.",
+    "cover": "overkillcover",
+    "stores": [
+      { "name": "Fnac", "price": "15.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "16.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "14.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 23,
+    "title": "The Exit",
+    "author": "Freida McFadden",
+    "rating": 4.6,
+    "genres": ["Thriller", "Psychological"],
+    "description": "A gripping thriller about a woman trapped in a twisted game of revenge that leads her through a series of impossible choices.",
+    "cover": "exitcover",
+    "stores": [
+      { "name": "Fnac", "price": "12.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "11.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "13.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  }
+
+  ]
