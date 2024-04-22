@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, NumberInput, ScrollView, Alert, } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -6,15 +6,21 @@ import { Picker } from '@react-native-picker/picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Modal } from 'react-native';
 import LottieView from 'lottie-react-native';
+import { FlatList } from 'react-native-gesture-handler';
+
+
 
 
 export default function DonateScreen({ navigation }) {
+
 
   const [modalVisible, setModalVisible] = useState(false);
 
   const onClose = () => setModalVisible(false);
 
   const [points, setPoints] = useState(0);
+  const [bookPoints, setBookPoints] = useState(0);
+
 
 
   const [selectedCity, setSelectedCity] = useState('City');
@@ -98,8 +104,7 @@ export default function DonateScreen({ navigation }) {
     setBookState('');
     setDate(new Date());  // Resets date to current date
     setShowDatePicker(false);
-    setSelectedCity('City');
-    setSelectedStore('Store');
+    setPoints(0);
   };
 
 
@@ -113,16 +118,9 @@ export default function DonateScreen({ navigation }) {
     setShowDatePicker(false);
     setSelectedCity('City');
     setSelectedStore('Store');
+    setPoints(0);
 
-    setBooks([{
-      title: '',
-      author: '',
-      isbn: '',
-      bookState: '',
-      date: new Date(),
-      city: 'City',
-      store: 'Store',
-    }]);
+    books.length = 0; // Clear the books array
 
 
     navigation.navigate('Book');
@@ -171,8 +169,19 @@ export default function DonateScreen({ navigation }) {
   const [books, setBooks] = useState([]);
 
 
+  useEffect(() => {
+    // This will be called after the state update has been applied
+    console.log('Book Points:', bookPoints);
+  }, [bookPoints]); // Only re-run the effect if bookPoints changes
+
   const addBook = () => {
-    // First, construct the book object from your state variables
+    // ... your logic for adding a book
+    const pontos = getRandomPoints(bookState);
+    setBookPoints(pontos);
+    setPoints(pontos);
+
+    console.log('Points: ' + points);
+
     const newBook = {
       title: title.trim(),
       author: author.trim(),
@@ -181,39 +190,31 @@ export default function DonateScreen({ navigation }) {
       date: date,
       city: selectedCity,
       store: selectedStore,
+      points: pontos,
+
+
     };
 
 
     if (checkFields()) {
+
+    
+
       setBooks([...books, newBook]);
-      setPoints(getRandomPoints(bookState));
-      console.log(points);
+      console.log('Points: ' + points);
       setModalVisible(true);
       reset();
-    };
+
+
+    }
+    else { jumpToTop(); console.log('error'); };
   };
 
-  const askToAddAnotherBook = () => {
-    // Display a dialog with Yes and No options
-    Alert.alert(
-      "Add Another Book",
-      "Would you like to add another book?",
-      [
-        // The "No" button
-        // Does nothing but dismiss the dialog when pressed
-        {
-          text: "No",
-        },
-        // The "Yes" button
-        // Calls the addNewBook function when pressed
-        {
-          text: "Yes",
-          onPress: () => addBook()
-        }
-      ],
-      { cancelable: false } // Prevents the alert from being dismissed by tapping outside of the alert box
-    );
+  const scrollViewRef = useRef(null);
+  const jumpToTop = () => {
+    scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
   };
+
 
   function getRandomPoints(bookState) {
     let min, max;
@@ -241,25 +242,15 @@ export default function DonateScreen({ navigation }) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  const displayBooksSummary = () => {
+  const [summaryModalVisible, setSummaryModalVisible] = useState(false);
 
+
+  const displayBooksSummary = () => {
     if (books.length === 0) {
       Alert.alert('No books', 'Please add at least one book.');
       return;
     }
-
-    const bookDetails = books.map((book, index) =>
-      `Book ${index + 1}:\n` +
-      `- Title: ${book.title}\n` +
-      `- Author: ${book.author}\n` +
-      `- ISBN: ${book.isbn}\n` +
-      `- Book State: ${book.bookState}\n` +
-      `- City: ${book.city}\n` +
-      `- Store: ${book.store}\n` +
-      `- Date: ${book.date.toDateString()}\n`
-    ).join('\n');
-
-    Alert.alert("Books Summary", bookDetails);
+    setSummaryModalVisible(true); // Show the summary modal
   };
 
 
@@ -398,13 +389,13 @@ export default function DonateScreen({ navigation }) {
 
         <View style={styles.centeredcontainer}>
           <TouchableOpacity style={styles.buttonContainer} onPress={addBook}>
-            <Text style={styles.buttonText}>Add Another Book</Text>
+            <Text style={styles.buttonText}>Add Book</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.centeredcontainer}>
           <TouchableOpacity style={styles.buttonContainer} onPress={displayBooksSummary}>
-            <Text style={styles.buttonText}>Send</Text>
+            <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
         </View>
 
@@ -423,7 +414,7 @@ export default function DonateScreen({ navigation }) {
 
       </ScrollView>
 
-      
+
 
       <Modal
         animationType="slide"
@@ -433,7 +424,12 @@ export default function DonateScreen({ navigation }) {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Your book has been added with <Text style={styles.underlineText}>{points}</Text> points.</Text>
+            
+              <Text style={styles.modalText}>
+                Your book has been added with
+                <Text style={styles.points}>{bookPoints}</Text> Points
+                <MaterialCommunityIcons name="leaf" size={20} color="green" />
+              </Text>
             <LottieView
               source={require('../../assets/points.json')}
               autoPlay
@@ -446,6 +442,54 @@ export default function DonateScreen({ navigation }) {
           </View>
         </View>
       </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={summaryModalVisible}
+        onRequestClose={() => setSummaryModalVisible(false)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <ScrollView>
+              {books.map((book, index) => (
+                <Text key={index} style={styles.modalText}>
+                  Book {index + 1}: {'\n'}
+                  - Title: {book.title}{'\n'}
+                  - Author: {book.author}{'\n'}
+                  - ISBN: {book.isbn}{'\n'}
+                  - Book State: {book.bookState}{'\n'}
+                  - City: {book.city}{'\n'}
+                  - Store: {book.store}{'\n'}
+                  - Date: {book.date.toDateString()}{'\n'}
+                  - Points: {book.points}
+                </Text>
+              ))}
+            </ScrollView>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => setSummaryModalVisible(false)}
+              >
+                <Text style={styles.button}>Add More Books</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  resetFieldsAndNavigate();
+                  setSummaryModalVisible(false);
+                }}
+              >
+                <Text style={styles.button}>Confirm</Text>
+              </TouchableOpacity>
+
+            </View>
+          </View>
+        </View>
+      </Modal>
+
     </View>
 
   );
@@ -457,8 +501,10 @@ export default function DonateScreen({ navigation }) {
 
 
 const styles = StyleSheet.create({
-  underlineText: {
-    textDecorationLine: 'underline',
+  points: {
+
+    color: 'darkgreen',
+    fontWeight: 'bold',
     // you can add other styling specific to the underlined text if needed
   },
   errorText: {
@@ -600,6 +646,7 @@ const styles = StyleSheet.create({
     shadowRadius: 15,
     borderColor: '#000',
 
+
   },
   centeredcontainer: {
 
@@ -612,6 +659,7 @@ const styles = StyleSheet.create({
     color: '#000', // Text color
     justifyContent: 'center',
     alignItems: 'center',
+
   },
   informative: {
     fontSize: 15,
@@ -642,6 +690,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+
   },
   modalText: {
     fontSize: 20,
