@@ -7,11 +7,21 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Modal } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { useIsFocused } from '@react-navigation/native';
 
 
 
 
 export default function DonateScreen({ navigation }) {
+  const scrollViewRef = useRef();
+  const isFocused = useIsFocused();
+
+
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ y: 0, animated: false });
+    }
+  }, []); // The empty array will cause this effect to run only on mount
 
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -20,6 +30,7 @@ export default function DonateScreen({ navigation }) {
 
   const [points, setPoints] = useState(0);
   const [bookPoints, setBookPoints] = useState(0);
+  const [totalPoints, setTotalPoints] = useState(0);
 
 
 
@@ -119,8 +130,9 @@ export default function DonateScreen({ navigation }) {
     setSelectedCity('City');
     setSelectedStore('Store');
     setPoints(0);
+    setTotalPoints(0);
 
-    books.length = 0; // Clear the books array
+    books.length = 0;
 
 
     navigation.navigate('Book');
@@ -180,6 +192,7 @@ export default function DonateScreen({ navigation }) {
     setBookPoints(pontos);
     setPoints(pontos);
 
+
     console.log('Points: ' + points);
 
     const newBook = {
@@ -197,23 +210,15 @@ export default function DonateScreen({ navigation }) {
 
 
     if (checkFields()) {
-
-    
-
       setBooks([...books, newBook]);
-      console.log('Points: ' + points);
+      setTotalPoints(totalPoints + pontos);
       setModalVisible(true);
       reset();
-
-
     }
-    else { jumpToTop(); console.log('error'); };
+
   };
 
-  const scrollViewRef = useRef(null);
-  const jumpToTop = () => {
-    scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
-  };
+
 
 
   function getRandomPoints(bookState) {
@@ -253,10 +258,16 @@ export default function DonateScreen({ navigation }) {
     setSummaryModalVisible(true); // Show the summary modal
   };
 
+  const RemoveBook = (index) => {
+    const newBooks = books.filter((_, bookIndex) => bookIndex !== index);
+    setBooks(newBooks);
+    setTotalPoints(totalPoints - books[index].points);
+  };
+
 
   return (
     <View style={styles.container}>
-      <ScrollView vertical showsVerticalScrollIndicator={false}>
+      <ScrollView vertical showsVerticalScrollIndicator={false} ref={scrollViewRef}>
         <View style={styles.headerText}>
           <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Donate Book</Text>
         </View>
@@ -394,9 +405,15 @@ export default function DonateScreen({ navigation }) {
         </View>
 
         <View style={styles.centeredcontainer}>
-          <TouchableOpacity style={styles.buttonContainer} onPress={displayBooksSummary}>
-            <Text style={styles.buttonText}>Submit</Text>
-          </TouchableOpacity>
+          {books.length > 0 ? (
+            <TouchableOpacity style={styles.buttonContainer} onPress={displayBooksSummary}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>) : (
+            <TouchableOpacity style={styles.buttonContainerInactive}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>)}
+
+
         </View>
 
 
@@ -424,12 +441,10 @@ export default function DonateScreen({ navigation }) {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            
-              <Text style={styles.modalText}>
-                Your book has been added with
-                <Text style={styles.points}>{bookPoints}</Text> Points
-                <MaterialCommunityIcons name="leaf" size={20} color="green" />
-              </Text>
+
+            <Text style={styles.modalTextPoints}>Your book has been added with <Text style={styles.points}>{bookPoints}</Text> Points
+              <MaterialCommunityIcons name="leaf" size={20} color="green" />
+            </Text>
             <LottieView
               source={require('../../assets/points.json')}
               autoPlay
@@ -450,11 +465,23 @@ export default function DonateScreen({ navigation }) {
         onRequestClose={() => setSummaryModalVisible(false)}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View style={styles.modalViewSubmit}>
+            <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'darkgreen' }}>Sumary of books:</Text>
             <ScrollView>
               {books.map((book, index) => (
                 <Text key={index} style={styles.modalText}>
-                  Book {index + 1}: {'\n'}
+
+                  <View style={{ flexDirection: 'row', fontSize: 20 }}>
+                    <Text style={{ fontWeight: 'bold',fontSize: 20 }}>Book {index + 1}</Text>
+                    <View style={{ alignItems: 'flex-end', marginLeft: 190}}>
+                      <TouchableOpacity onPress={() => RemoveBook(index)}>
+                        <MaterialCommunityIcons name="delete" size={24} color="red" />
+                      </TouchableOpacity>
+                    </View>
+  
+                    
+                  </View>
+                  {'\n'}
                   - Title: {book.title}{'\n'}
                   - Author: {book.author}{'\n'}
                   - ISBN: {book.isbn}{'\n'}
@@ -462,27 +489,34 @@ export default function DonateScreen({ navigation }) {
                   - City: {book.city}{'\n'}
                   - Store: {book.store}{'\n'}
                   - Date: {book.date.toDateString()}{'\n'}
-                  - Points: {book.points}
+                  <Text style={styles.modalTextPoints}>
+                  - Points: <Text {...styles.points} >{book.points}</Text>
+                  <MaterialCommunityIcons name="leaf" size={20} color="green" />
+                  </Text>
                 </Text>
+
               ))}
+              <Text style={styles.modalTextTotal}>
+                Total Points: {totalPoints}
+                <MaterialCommunityIcons name="leaf" size={20} color="green" />
+              </Text>
             </ScrollView>
-            <View style={styles.buttonContainer}>
+            <View >
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => setSummaryModalVisible(false)}
               >
-                <Text style={styles.button}>Add More Books</Text>
+                <Text style={{fontSize: 18}}>Add More Books <MaterialCommunityIcons style={{marginTop}} size={22} name='plus-circle'></MaterialCommunityIcons></Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.buttonContainer}>
+            <View style={styles.button}>
               <TouchableOpacity
-                style={styles.button}
                 onPress={() => {
                   resetFieldsAndNavigate();
                   setSummaryModalVisible(false);
                 }}
               >
-                <Text style={styles.button}>Confirm</Text>
+                <Text style={{fontSize: 18}}>Confirm</Text>
               </TouchableOpacity>
 
             </View>
@@ -631,7 +665,6 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-
     backgroundColor: '#addfad',
     borderColor: 'black',
     paddingBottom: 10,
@@ -645,6 +678,42 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.75,
     shadowRadius: 15,
     borderColor: '#000',
+    borderRadius: 35,
+  },
+
+  button: {
+    backgroundColor: '#addfad', // Cor do fundo do botão
+    paddingVertical: 10, // Espaçamento vertical dentro do botão
+    paddingHorizontal: 20, // Espaçamento horizontal dentro do botão
+    marginBottom: 20, // Espaço na parte inferior
+    borderRadius: 20, // Bordas arredondadas
+    marginHorizontal: 10, // Espaço entre os botões
+    minWidth: 120, // Largura mínima para cada botão
+    textAlign: 'center', // Centralizar texto
+    alignItems: 'center', // Centralizar conteúdo
+    fontSize: 20, // Tamanho da fonte
+  },
+  buttonText: {
+    color: 'white', // Cor do texto
+    textAlign: 'center', // Centralizar texto
+    fontWeight: 'bold', // Negrito
+    
+    
+  },
+  buttonContainerInactive: {
+    opacity: 0.3,
+    backgroundColor: 'lightgray',
+    borderColor: 'black',
+    paddingBottom: 10,
+    paddingTop: 10,
+    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+
+
+    borderColor: '#000',
+    borderRadius: 35,
 
 
   },
@@ -653,12 +722,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 20,
+    
+
   },
   buttonText: {
     fontSize: 20,
     color: '#000', // Text color
     justifyContent: 'center',
     alignItems: 'center',
+
 
   },
   informative: {
@@ -675,8 +747,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
+    fontSize: 20,
   },
   modalView: {
+    margin: 20,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    fontSize: 20,
+
+  },
+  modalViewSubmit: {
     margin: 20,
     backgroundColor: '#F0F0F0',
     borderRadius: 20,
@@ -695,7 +785,23 @@ const styles = StyleSheet.create({
   modalText: {
     fontSize: 20,
     marginBottom: 15,
+    textAlign: 'left',
+    letterSpacing: 0.75,
+    lineHeight: 30,
+  },
+  modalTextPoints: {
+    fontSize: 20,
+    marginBottom: 15,
     textAlign: 'center',
+  },
+  modalTextTotal: {
+    fontSize: 20,
+    marginBottom: 15,
+    textAlign: 'left',
+    letterSpacing: 0.75,
+    lineHeight: 30,
+    fontWeight: 'bold',
+    
   },
 
   lottieStyle: {
