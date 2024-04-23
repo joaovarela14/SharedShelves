@@ -100,7 +100,7 @@ export default function Register({ navigation }) {
                     <Ionicons name="person-outline" size={20} color="#3A8D5B" style={styles.icon} />
                     <TextInput 
                         style={styles.inputs} 
-                        placeholder='Fullname' 
+                        placeholder='Full Name' 
                         placeholderTextColor="#3A8D5B"
                         onChangeText={(text) => {setFullname(text); setErrorFullname('');}}
                         value={fullname} 

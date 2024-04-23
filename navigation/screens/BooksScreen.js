@@ -15,16 +15,19 @@ export default function BooksScreen({ navigation }) {
                 style={styles.animation}
             />
 
-            <Text style={{ fontSize: 30, fontWeight: 'bold', marginTop: 5, textDecorationLine: 'underline', marginBottom:20 }}>SharedShelves</Text>
+            <Text style={{ fontSize: 25, fontWeight: 'bold', }}>- Read -</Text>
+            <Text style={{ fontSize: 25, fontWeight: 'bold',  }}>- Recycle -</Text>
+            <Text style={{ fontSize: 25, fontWeight: 'bold', marginBottom: 15 }}>- Reconnect -</Text>
+
 
             <TouchableOpacity 
                 onPress={() => navigation.navigate('Donate')} >
                 
                 <LinearGradient
                     
-                    start={{ x: 0, y: 0 }} // Start of the gradient from the left
-                    end={{ x: 1, y: 0 }}   // End of the gradient to the right
-                    colors={['#006400', '#2a7d2a', '#559755', '#7fb17f', '#aacbaa', '#d4e5d4', '#ffffff']} // Gradient colors
+                    start={{ x: 1, y: 0 }} // Start of the gradient from the left
+                    end={{ x: 0, y: 0 }}   // End of the gradient to the right
+                    colors={['#FFFFFF', '#E6F2E6', '#C2E0C1', '#9DCE9D', '#79BB79', '#55A955', '#3A8D5B']} // Gradient colors
                     style={styles.Button}>
                     <Text style={styles.ButtonText1}>Donate Book</Text>
                 </LinearGradient>
@@ -39,9 +42,9 @@ export default function BooksScreen({ navigation }) {
 
             <TouchableOpacity>
                 <LinearGradient
-                    start={{ x: 1, y: 0 }} // Start of the gradient from the right
-                    end={{ x: 0, y: 0 }}   // End of the gradient to the left
-                    colors={['#006400', '#2a7d2a', '#559755', '#7fb17f', '#aacbaa', '#d4e5d4', '#ffffff']} // Gradient colors
+                    start={{ x: 0, y: 0 }} // Start of the gradient from the right
+                    end={{ x: 1, y: 0 }}   // End of the gradient to the left
+                    colors={['#FFFFFF', '#E6F2E6', '#C2E0C1', '#9DCE9D', '#79BB79', '#55A955', '#3A8D5B']} // Gradient colors
                     style={styles.Button}>
                     <Text style={styles.ButtonText2}>Get Book</Text>
                 </LinearGradient>

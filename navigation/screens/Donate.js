@@ -506,18 +506,24 @@ export default function DonateScreen({ navigation }) {
                 style={styles.button}
                 onPress={() => setSummaryModalVisible(false)}
               >
-                <Text style={{fontSize: 18}}>Add More Books <MaterialCommunityIcons style={{marginTop}} size={22} name='plus-circle'></MaterialCommunityIcons></Text>
+                <Text style={{fontSize: 18}}>Add More Books <MaterialCommunityIcons  size={22} name='plus-circle'></MaterialCommunityIcons></Text>
               </TouchableOpacity>
             </View>
             <View style={styles.button}>
-              <TouchableOpacity
-                onPress={() => {
-                  resetFieldsAndNavigate();
-                  setSummaryModalVisible(false);
-                }}
-              >
-                <Text style={{fontSize: 18}}>Confirm</Text>
-              </TouchableOpacity>
+              
+            <TouchableOpacity
+                  onPress={() => {
+                    if (books.length > 0) {
+                      resetFieldsAndNavigate();
+                    } else {
+                      reset();
+                    }
+                    setSummaryModalVisible(false);
+                  }}
+                >
+                  <Text style={{ fontSize: 18 }}>Confirm</Text>
+                </TouchableOpacity>
+
 
             </View>
           </View>
@@ -555,6 +561,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingBottom: 95,
 
+
     padding: 30
   },
   picker: {
@@ -569,7 +576,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 3,
-    elevation: 4,
+    elevation: 10
 
   },
   inputRow: {
