@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Alert, 
 StyleSheet, Image, ScrollView, FlatList, Modal  } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Importe o Ionicons
 import { useGlobalState } from './GlobalContext';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import booksData from '../../books.json'; 
 
@@ -11,6 +12,7 @@ export default function SearchScreen({ navigation }) {
   const [searchHistory, setSearchHistory] = useState([]); // Novo estado para armazenar o histórico de buscas
   const [searchResults, setSearchResults] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const scrollViewRef = useRef();
 
   const topBooks = [
     { source: require('../../assets/harrypotterbook.jpg') },
@@ -42,14 +44,17 @@ export default function SearchScreen({ navigation }) {
 
     // Divida a string de pesquisa em palavras-chave
     const keywords = searchQuery.toLowerCase().split(' ');
+    console.log('Keywords:', keywords);
 
     // Filtrar os dados dos livros para encontrar correspondências
     const results = booksData.filter(book =>
-      keywords.some(keyword =>
-        book.title.toLowerCase().includes(keyword) ||
-        book.author.toLowerCase().includes(keyword) ||
-        (book.genres && book.genres.some(genre => genre.toLowerCase().includes(keyword)))
-      )
+      keywords.some(keyword => {
+        return keyword !== '' && ( // Certifique-se de que a palavra-chave não está vazia antes de comparar
+          book.title.toLowerCase().includes(keyword) ||
+          book.author.toLowerCase().includes(keyword) ||
+          (book.genres && book.genres.some(genre => genre.toLowerCase().includes(keyword)))
+        );
+      })
     );
     console.log('Search results:', results);
 
@@ -72,11 +77,20 @@ export default function SearchScreen({ navigation }) {
     setModalVisible(false);
   };
 
+  const { totalPoints, addPoints } = useGlobalState();
+
+
   return (
     // SEARCH SCREEN
     <View style={styles.container}>
-      <Text style={{ fontSize: 25, fontWeight: 'bold' }}>SEARCH</Text> 
+    <ScrollView vertical showsVerticalScrollIndicator={false} ref={scrollViewRef}>
 
+      <View style={{ flexDirection: 'row', fontSize: 25, fontWeight: 'bold', justifyContent: 'space-between'}}>
+        <Text style={{ fontSize: 25, fontWeight: 'bold' }}>SEARCH</Text>
+        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 110, color: 'green'}}>{totalPoints} Points 
+          <MaterialCommunityIcons name="leaf" size={20} color="green" />
+        </Text>
+      </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', borderColor: 'gray', borderWidth: 1, borderRadius: 5, paddingVertical: 5, paddingHorizontal: 10, marginTop: 20 }}>
         <Ionicons name="search" size={20} color="gray" style={{ marginRight: 10 }} />
         <TextInput
@@ -96,34 +110,44 @@ export default function SearchScreen({ navigation }) {
         </TouchableOpacity>
 
       </View>
+      
 
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
         <Text style={{ fontSize: 25, fontWeight: 'bold', marginTop: 10,}}>Recent</Text> 
         <TouchableOpacity onPress={clearSearchHistory} style={styles.buttonclear}>
           <Text style={styles.buttonText}>Clear</Text>
         </TouchableOpacity>
       </View>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
-        {searchHistory.slice(0, 5).map((search, index) => (
-          <TouchableOpacity key={index} onPress={() => removeSearchItem(index)} style={styles.recentSearchItem}>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.recentSearchText}>{search}</Text>
-              <Ionicons name="close-circle" size={24} color="red" />
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      {
+        searchHistory.length > 0 ? (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
+            {searchHistory.slice(0, 5).map((search, index) => (
+              <View key={index} style={styles.recentSearchItem}>
+                <Text style={styles.recentSearchText}>{search}</Text>
+                <TouchableOpacity onPress={() => removeSearchItem(index)}>
+                  <Ionicons name="close-circle" size={24} color="red" />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <Text style={styles.noRecentSearchText}>No Recent Search Books</Text>
+        )
+      }
+
 
       <View>
-        <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Latest Search</Text>
-        {searchHistory.length > 0 && (
+        <Text style={{ fontSize: 25, fontWeight: 'bold', marginBottom: 10 }}>Latest Search</Text>
+        {searchHistory.length > 0 ? (
           <View style={styles.card}>
             <Image 
               source={require('../../assets/SharedShelves.png')}style={styles.image}
             />
             <Text style={styles.cardText}>{searchHistory[searchHistory.length - 1]}</Text>
           </View>
+        ) : (
+          <Text style={styles.noResultsText}>No Previous Search</Text>
         )}
       </View>
 
@@ -186,14 +210,58 @@ export default function SearchScreen({ navigation }) {
         
         </ScrollView>
       
-    </View>
+        <View>
+          <Text style={styles.genreHeader}>Explore Popular Genres</Text>
+          <View style={styles.genreList}>
+            <TouchableOpacity style={styles.genreItem}>
+              <Text style={styles.genreText}>Classics</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.genreItem}>
+              <Text style={styles.genreText}>Romance</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.genreItem}>
+              <Text style={styles.genreText}>Fantasy</Text>
+            </TouchableOpacity>
+
+          </View>
+          <View style={styles.genreList}>
+            <TouchableOpacity style={styles.genreItem}>
+                <Text style={styles.genreText}>Mystery</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.genreItem}>
+                <Text style={styles.genreText}>Horror</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.genreItem}>
+                <Text style={styles.genreText}>Science Fiction</Text>
+              </TouchableOpacity>
+          </View>
+          <View style={styles.genreList}>
+            <TouchableOpacity style={styles.genreItem}>
+                <Text style={styles.genreText}>Mystery</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.genreItem}>
+                <Text style={styles.genreText}>Horror</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.genreItem}>
+                <Text style={styles.genreText}>Science Fiction</Text>
+              </TouchableOpacity>
+          </View>
+          <View style={styles.genreHeader}> 
+            <TouchableOpacity style={styles.exploreButton}>
+                <Text style={styles.exploreButtonText}>EXPLORE ALL GENRES</Text>
+            </TouchableOpacity>
+          </View>
+
+        </View>
+      </ScrollView>
+    </View> //VIEW DO CONTAINER TODO
+
 
   );
 };
 
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
       padding: 30,
       marginTop: 30,
     },
@@ -215,18 +283,18 @@ export default function SearchScreen({ navigation }) {
     },
 
     buttonclear: {
-      backgroundColor: 'red',
+      backgroundColor: 'grey',
       padding: 8,
       borderRadius: 5,
       marginTop: 10,
       marginBottom: 10,
-      marginLeft: 205,
       alignItems: 'flex-end'
     },
     
     buttonText: {
       color: 'white',
       fontWeight: 'bold',
+      justifyContent: 'space-between'
     },
     historyContainer: {
       marginTop: 20,
@@ -256,6 +324,7 @@ export default function SearchScreen({ navigation }) {
       borderRadius: 20,
       justifyContent: 'center',
       height: 40,
+      flexDirection: 'row',
       
     },
 
@@ -277,6 +346,7 @@ export default function SearchScreen({ navigation }) {
       shadowRadius: 3.84,
       elevation: 5,
       marginTop: 10, // Espaçamento acima do card
+      marginBottom: 10, // Espaçamento abaixo do card
     },
     image: {
       width: 45, // Largura adaptada para uma capa de livro
@@ -293,7 +363,6 @@ export default function SearchScreen({ navigation }) {
     sectionTitle: {
       fontSize: 25,
       fontWeight: 'bold',
-      marginTop: 20,
       marginBottom: 10,
     },
     scrollViewContainer: {
@@ -307,8 +376,8 @@ export default function SearchScreen({ navigation }) {
       shadowOpacity: 0.22,
       shadowRadius: 2.22,
       elevation: 3,
-      width: 107, // Largura do card, ajuste conforme necessário
-      height: 170, // Altura do card, ajuste conforme necessário
+      width: 117, // Largura do card, ajuste conforme necessário
+      height: 190, // Altura do card, ajuste conforme necessário
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -372,9 +441,48 @@ export default function SearchScreen({ navigation }) {
       padding: 10,
       elevation: 2,
     },
+
+    noRecentSearchText: {
+      fontSize: 16,
+      color: 'grey',
+      textAlign: 'center',
+      marginBottom: 15,
+    },
+
+    noResultsText: {
+      fontSize: 16,
+      color: 'grey',
+      textAlign: 'center',
+      marginBottom: 15,
+    },
+
+    genreHeader: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    },
+    genreList: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      width: '100%',
+      marginBottom: 10,
+    },
+    genreItem: {
+      backgroundColor: '#ccc', // Substitua pela cor de fundo desejada ou imagem
+      padding: 10,
+      borderRadius: 5,
+    },
+    genreText: {
+      color: 'white', // Substitua pela cor do texto desejada
+    },
+    exploreButton: {
+      backgroundColor: 'blue', // Substitua pela cor de fundo do botão "Explorar todos"
+      padding: 10,
+      borderRadius: 5,
+    },
+    exploreButtonText: {
+      color: 'white', // Substitua pela cor do texto do botão "Explorar todos"
+      fontWeight: 'bold',
+    },
   });
-
-
-
-  
-

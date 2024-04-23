@@ -8,6 +8,7 @@ import { Modal } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useIsFocused } from '@react-navigation/native';
+import { useGlobalState } from './GlobalContext';
 
 
 
@@ -30,7 +31,7 @@ export default function DonateScreen({ navigation }) {
 
   const [points, setPoints] = useState(0);
   const [bookPoints, setBookPoints] = useState(0);
-  const [totalPoints, setTotalPoints] = useState(0);
+  const {totalPoints, setTotalPoints} = useGlobalState();
 
 
 
@@ -519,6 +520,7 @@ export default function DonateScreen({ navigation }) {
                       reset();
                     }
                     setSummaryModalVisible(false);
+                    setTotalPoints(totalPoints);
                   }}
                 >
                   <Text style={{ fontSize: 18 }}>Confirm</Text>

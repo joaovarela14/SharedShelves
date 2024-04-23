@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": 0,
     "title": "Harry Potter e a Pedra Filosofal",
     "author": "J.K. Rowling",
     "rating": 4.9,
@@ -15,7 +15,7 @@
   },
 
   {
-    "id": 2,
+    "id": 1,
     "title": "A Porta Trancada",
     "author": "Freida McFadden",
     "rating": 4.5,
@@ -30,7 +30,7 @@
   },
 
   {
-    "id": 3,
+    "id": 2,
     "title": "Outsider",
     "author": "Stephen King",
     "rating": 4.6,
@@ -45,8 +45,8 @@
   },
 
   {
-    "id": 4,
-    "title": "A Criada",
+    "id": 3,
+    "title": "The Housemaid",
     "author": "Freida Mcfadden",
     "rating": 4.7,
     "genres": ["Romance", "Sci-Fi"],
@@ -58,6 +58,22 @@
       { "name": "Wook", "price": "17.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
     ]
   },
+
+  {
+    "id": 4,
+    "title": "The Housemaid's Secret",
+    "author": "Freida McFadden",
+    "rating": 4.5,
+    "genres": ["Thriller", "Mystery"],
+    "description": "In 'The Housemaid's Secret', a sequel to the gripping 'The Housemaid', we dive back into the tangled web of lies and deceit surrounding the life of Millie, a maid with a past filled with secrets that intertwine with her employers' lives in unexpected ways.",
+    "cover": "housemaidsecretcover",
+    "stores": [
+      { "name": "Fnac", "price": "14.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "13.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "16.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+
   {
     "id": 5,
     "title": "The Great Gatsby",
@@ -65,7 +81,7 @@
     "rating": 4.4,
     "genres": ["Classic", "Historical Fiction"],
     "description": "A novel about the Roaring Twenties and the elusive pursuit of the American Dream.",
-    "cover": "portatrancada",
+    "cover": "great",
     "stores": [
       { "name": "Fnac", "price": "14.99€", "logo": "fnacLogo" },
       { "name": "Bertrand", "price": "13.99€", "logo": "bertrandLogo" },
@@ -147,6 +163,21 @@
   },
 
   {
+    "id": 11,
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "rating": 4.9,
+    "genres": ["Fantasy", "Adventure"],
+    "description": "A high-fantasy epic novel that follows the quest to destroy the One Ring, and the battle against the Dark Lord Sauron.",
+    "cover": "lordoftheringscover",
+    "stores": [
+      { "name": "Fnac", "price": "19.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "18.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "20.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+
+  {
     "id": 12,
     "title": "To Kill a Mockingbird",
     "author": "Harper Lee",
@@ -204,6 +235,21 @@
   },
 
   {
+    "id": 16,
+    "title": "Great Expectations",
+    "author": "Charles Dickens",
+    "rating": 4.5,
+    "genres": ["Classic", "Literary Fiction"],
+    "description": "Set in Victorian England, this captivating tale follows the life of young Pip as he navigates love, fortune, and the pursuit of his dreams amidst the backdrop of a rapidly changing society.",
+    "cover": "greatexpectationscover",
+    "stores": [
+      { "name": "Target", "price": "$14.99", "logo": "targetLogo", "url": "https://www.target.com" },
+      { "name": "Walmart", "price": "$13.50", "logo": "walmartLogo", "url": "https://www.walmart.com" },
+      { "name": "Bookshop.org", "price": "$12.75", "logo": "bookshopLogo", "url": "https://www.bookshop.org" }
+    ]
+  },
+  
+  {
     "id": 17,
     "title": "Crime and Punishment",
     "author": "Fyodor Dostoevsky",
@@ -217,6 +263,7 @@
       { "name": "Wook", "price": "15.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
     ]
   },
+
   {
     "id": 18,
     "title": "The Picture of Dorian Gray",
@@ -246,6 +293,37 @@
       { "name": "Wook", "price": "18.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
     ]
   },
+
+  {
+    "id": 20,
+    "title": "The Adventures of Tom Sawyer",
+    "author": "Mark Twain",
+    "rating": 4.4,
+    "genres": ["Adventure", "Children's Literature"],
+    "description": "Join Tom Sawyer and Huckleberry Finn on a thrilling journey down the Mississippi River as they encounter pirates, treasure hunts, and the joys of boyhood in this timeless classic.",
+    "cover": "tomsawyercover",
+    "stores": [
+      { "name": "Barnes & Noble", "price": "$8.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Books-A-Million", "price": "$7.99", "logo": "bamLogo", "url": "https://www.booksamillion.com" },
+      { "name": "IndieBound", "price": "$9.50", "logo": "indieboundLogo", "url": "https://www.indiebound.org" }
+    ]
+  },
+  
+  {
+    "id": 21,
+    "title": "War and Peace",
+    "author": "Leo Tolstoy",
+    "rating": 4.9,
+    "genres": ["Historical Fiction", "Epic"],
+    "description": "Immerse yourself in the sweeping saga of love, war, and destiny set against the backdrop of Napoleonic Russia. Follow the lives of aristocrats, soldiers, and peasants as they navigate the tumultuous events of the early 19th century.",
+    "cover": "warandpeacecover",
+    "stores": [
+      { "name": "Books-A-Million", "price": "$19.99", "logo": "bamLogo", "url": "https://www.booksamillion.com" },
+      { "name": "Book Depository", "price": "$18.50", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" },
+      { "name": "Indigo", "price": "$20.25", "logo": "indigoLogo", "url": "https://www.chapters.indigo.ca" }
+    ]
+  },
+
   {
     "id": 22,
     "title": "Overkill",
@@ -273,6 +351,414 @@
       { "name": "Bertrand", "price": "11.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
       { "name": "Wook", "price": "13.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
     ]
+  },
+
+  {
+    "id": 24,
+    "title": "Mrs. Dalloway",
+    "author": "Virginia Woolf",
+    "rating": 4.6,
+    "genres": ["Modernist", "Fiction"],
+    "description": "Follow Clarissa Dalloway as she prepares for a party in post-World War I London, while reflecting on the complexities of life, love, and society in this groundbreaking work of modernist literature.",
+    "cover": "mrsdallowaycover",
+    "stores": [
+      { "name": "Amazon", "price": "$12.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Waterstones", "price": "£10.99", "logo": "waterstonesLogo", "url": "https://www.waterstones.com" },
+      { "name": "Book Depository", "price": "$11.50", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+
+  {
+    "id": 25,
+    "title": "The Secrets We Keep",
+    "author": "Stephanie Archer",
+    "rating": 4.8,
+    "genres": ["Mystery", "Suspense", "Psychological Thriller"],
+    "description": "Dive into a web of secrets and deception as a small-town community is rocked by a series of mysterious events.",
+    "cover": "secretswekeepcover",
+    "stores": [
+      { "name": "Barnes & Noble", "price": "$14.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Books-A-Million", "price": "$14.99", "logo": "bamLogo", "url": "https://www.booksamillion.com" },
+      { "name": "IndieBound", "price": "$14.99", "logo": "indieboundLogo", "url": "https://www.indiebound.org" }
+    ]
+  },
+  {
+    "id": 26,
+    "title": "Beneath These Scars",
+    "author": "Colleen Hoover",
+    "rating": 4.6,
+    "genres": ["Romance", "Contemporary", "New Adult"],
+    "description": "A gripping love story unfolds amidst the scars of past traumas, challenging the characters to confront their vulnerabilities and find healing in each other.",
+    "cover": "beneaththescarscover",
+    "stores": [
+      { "name": "Amazon", "price": "$9.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Waterstones", "price": "£9.99", "logo": "waterstonesLogo", "url": "https://www.waterstones.com" },
+      { "name": "Book Depository", "price": "$9.99", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+  {
+    "id": 27,
+    "title": "The Art of Letting Go",
+    "author": "Ana Huang",
+    "rating": 4.7,
+    "genres": ["Romance", "Young Adult", "Contemporary"],
+    "description": "Follow the journey of self-discovery and love as two souls navigate the complexities of friendship, ambition, and letting go of the past.",
+    "cover": "artoflettinggocover",
+    "stores": [
+      { "name": "Fnac", "price": "11.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "11.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "11.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 28,
+    "title": "The Lies We Tell Ourselves",
+    "author": "Stephanie Archer",
+    "rating": 4.9,
+    "genres": ["Thriller", "Mystery", "Domestic Noir"],
+    "description": "Unravel the truth behind a series of lies as characters confront their darkest secrets and the consequences of their actions.",
+    "cover": "lieswetellourselvescover",
+    "stores": [
+      { "name": "Fnac", "price": "16.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "16.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "16.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 29,
+    "title": "Finding Perfect",
+    "author": "Colleen Hoover",
+    "rating": 4.5,
+    "genres": ["Romance", "Contemporary", "Chick Lit"],
+    "description": "Join a quirky protagonist on her quest for perfection in love, life, and everything in between, with unexpected twists along the way.",
+    "cover": "findingperfectcover",
+    "stores": [
+      { "name": "Amazon", "price": "$12.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Waterstones", "price": "£12.99", "logo": "waterstonesLogo", "url": "https://www.waterstones.com" },
+      { "name": "Book Depository", "price": "$12.99", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+  {
+    "id": 30,
+    "title": "Second Chances",
+    "author": "Ana Huang",
+    "rating": 4.4,
+    "genres": ["Romance", "Contemporary", "Young Adult"],
+    "description": "Discover the power of second chances as two individuals navigate the complexities of love, loss, and redemption.",
+    "cover": "secondchancescover",
+    "stores": [
+      { "name": "Barnes & Noble", "price": "$10.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Books-A-Million", "price": "$10.99", "logo": "bamLogo", "url": "https://www.booksamillion.com" },
+      { "name": "IndieBound", "price": "$10.99", "logo": "indieboundLogo", "url": "https://www.indiebound.org" }
+    ]
+  },
+  {
+    "id": 31,
+    "title": "In This Moment",
+    "author": "Stephanie Archer",
+    "rating": 4.7,
+    "genres": ["Romance", "Contemporary", "Drama"],
+    "description": "Explore the transformative power of love and forgiveness as characters confront their pasts and embrace the present moment.",
+    "cover": "inthismomentcover",
+    "stores": [
+      { "name": "Fnac", "price": "13.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "13.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "13.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 32,
+    "title": "Heartstrings",
+    "author": "Colleen Hoover",
+    "rating": 4.8,
+    "genres": ["Romance", "Contemporary", "Young Adult"],
+    "description": "Tug at the heartstrings as characters navigate the highs and lows of love, friendship, and self-discovery in this emotionally charged tale.",
+    "cover": "heartstringscover",
+    "stores": [
+      { "name": "Amazon", "price": "$11.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Waterstones", "price": "£11.99", "logo": "waterstonesLogo", "url": "https://www.waterstones.com" },
+      { "name": "Book Depository", "price": "$11.99", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+  {
+    "id": 33,
+    "title": "Fragments of Us",
+    "author": "Ana Huang",
+    "rating": 4.6,
+    "genres": ["Romance", "Contemporary", "Drama"],
+    "description": "Piece together the fragments of love and loss as characters embark on a journey of healing and rediscovery.",
+    "cover": "fragmentsofuscover",
+    "stores": [
+      { "name": "Barnes & Noble", "price": "$13.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Books-A-Million", "price": "$13.99", "logo": "bamLogo", "url": "https://www.booksamillion.com" },
+      { "name": "IndieBound", "price": "$13.99", "logo": "indieboundLogo", "url": "https://www.indiebound.org" }
+    ]
+  },
+  {
+    "id": 34,
+    "title": "Unspoken Truths",
+    "author": "Stephanie Archer",
+    "rating": 4.5,
+    "genres": ["Thriller", "Suspense", "Domestic Noir"],
+    "description": "Confront the unspoken truths as characters grapple with deception, betrayal, and the consequences of their actions.",
+    "cover": "unspokentruthscover",
+    "stores": [
+      { "name": "Fnac", "price": "15.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "15.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "15.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+  {
+    "id": 35,
+    "title": "The Road Not Taken",
+    "author": "Colleen Hoover",
+    "rating": 4.7,
+    "genres": ["Romance", "Contemporary", "Chick Lit"],
+    "description": "Embark on a journey of self-discovery and love as characters navigate the complexities of life, choices, and second chances.",
+    "cover": "roadnottakencover",
+    "stores": [
+      { "name": "Amazon", "price": "$10.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Waterstones", "price": "£10.99", "logo": "waterstonesLogo", "url": "https://www.waterstones.com" },
+      { "name": "Book Depository", "price": "$10.99", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+  {
+    "id": 36,
+    "title": "The Art of Forgiveness",
+    "author": "Ana Huang",
+    "rating": 4.6,
+    "genres": ["Romance", "Contemporary", "Young Adult"],
+    "description": "Discover the transformative power of forgiveness as characters confront their pasts and embrace the healing journey of love and redemption.",
+    "cover": "artofforgivenesscover",
+    "stores": [
+      { "name": "Fnac", "price": "11.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "11.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "11.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+
+  {
+    "id": 37,
+    "title": "Verity",
+    "author": "Colleen Hoover",
+    "rating": 4.9,
+    "genres": ["Romantic Suspense", "Thriller"],
+    "description": "Enter a world of dark secrets and twisted desires as a struggling writer uncovers the chilling truth behind a best-selling author's mysterious disappearance.",
+    "cover": "veritycover",
+    "stores": [
+      { "name": "Amazon", "price": "$10.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Waterstones", "price": "£9.99", "logo": "waterstonesLogo", "url": "https://www.waterstones.com" },
+      { "name": "Book Depository", "price": "$9.99", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+  {
+    "id": 38,
+    "title": "Ugly Love",
+    "author": "Colleen Hoover",
+    "rating": 4.7,
+    "genres": ["Romance", "Contemporary", "New Adult"],
+    "description": "Experience the raw emotions of love and heartbreak as two individuals navigate the complexities of a passionate yet painful relationship.",
+    "cover": "uglylovecover",
+    "stores": [
+      { "name": "Barnes & Noble", "price": "$12.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Books-A-Million", "price": "$11.99", "logo": "bamLogo", "url": "https://www.booksamillion.com" },
+      { "name": "IndieBound", "price": "$12.99", "logo": "indieboundLogo", "url": "https://www.indiebound.org" }
+    ]
+  },
+  {
+    "id": 39,
+    "title": "It Ends with Us",
+    "author": "Colleen Hoover",
+    "rating": 4.8,
+    "genres": ["Romance", "Contemporary", "New Adult"],
+    "description": "Delve into a poignant tale of love, resilience, and empowerment as a young woman confronts her past and forges a path toward a better future.",
+    "cover": "itendswithuscover",
+    "stores": [
+      { "name": "Amazon", "price": "$13.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Waterstones", "price": "£12.99", "logo": "waterstonesLogo", "url": "https://www.waterstones.com" },
+      { "name": "Book Depository", "price": "$12.99", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+  {
+    "id": 40,
+    "title": "It Starts with Us",
+    "author": "Colleen Hoover",
+    "rating": 4.9,
+    "genres": ["Romance", "Contemporary", "New Adult"],
+    "description": "Embark on an emotional journey of love, forgiveness, and second chances as two individuals confront their pasts and build a future together.",
+    "cover": "itstartswithuscover",
+    "stores": [
+      { "name": "Barnes & Noble", "price": "$14.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Books-A-Million", "price": "$13.99", "logo": "bamLogo", "url": "https://www.booksamillion.com" },
+      { "name": "IndieBound", "price": "$14.99", "logo": "indieboundLogo", "url": "https://www.indiebound.org" }
+    ]
+  },
+
+  {
+    "id": 41,
+    "title": "Maybe Someday",
+    "author": "Colleen Hoover",
+    "rating": 4.6,
+    "genres": ["Romance", "Contemporary", "New Adult"],
+    "description": "Explore the complexities of love, friendship, and music as two souls connect in unexpected ways, challenging them to confront their deepest desires.",
+    "cover": "maybesomedaycover",
+    "stores": [
+      { "name": "Amazon", "price": "$11.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Waterstones", "price": "£10.99", "logo": "waterstonesLogo", "url": "https://www.waterstones.com" },
+      { "name": "Book Depository", "price": "$10.99", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+
+  {
+    "id": 42,
+    "title": "November 9",
+    "author": "Colleen Hoover",
+    "rating": 4.7,
+    "genres": ["Romance", "Contemporary", "New Adult"],
+    "description": "Experience the magic of serendipitous encounters and the power of second chances as two strangers' lives intertwine on the same date each year.",
+    "cover": "november9cover",
+    "stores": [
+      { "name": "Barnes & Noble", "price": "$13.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Books-A-Million", "price": "$12.99", "logo": "bamLogo", "url": "https://www.booksamillion.com" },
+      { "name": "IndieBound", "price": "$13.99", "logo": "indieboundLogo", "url": "https://www.indiebound.org" }
+    ]
+  },
+
+  {
+    "id": 43,
+    "title": "Slammed",
+    "author": "Colleen Hoover",
+    "rating": 4.6,
+    "genres": ["Romance", "Contemporary", "New Adult"],
+    "description": "Immerse yourself in the world of poetry, passion, and forbidden love as two souls are brought together by fate and bound by their shared secrets.",
+    "cover": "slammedcover",
+    "stores": [
+      { "name": "Amazon", "price": "$10.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Waterstones", "price": "£9.99", "logo": "waterstonesLogo", "url": "https://www.waterstones.com" },
+      { "name": "Book Depository", "price": "$9.99", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+
+  {
+    "id": 44,
+    "title": "Hopeless",
+    "author": "Colleen Hoover",
+    "rating": 4.8,
+    "genres": ["Romance", "Contemporary", "New Adult"],
+    "description": "Discover the power of love and redemption as two broken souls find solace in each other's arms, unraveling the mysteries of their pasts along the way.",
+    "cover": "hopelesscover",
+    "stores": [
+      { "name": "Barnes & Noble", "price": "$12.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Books-A-Million", "price": "$11.99", "logo": "bamLogo", "url": "https://www.booksamillion.com" },
+      { "name": "IndieBound", "price": "$12.99", "logo": "indieboundLogo", "url": "https://www.indiebound.org" }
+    ]
+  },
+
+  {
+    "id": 45,
+    "title": "Regretting You",
+    "author": "Colleen Hoover",
+    "rating": 4.7,
+    "genres": ["Romance", "Contemporary", "Family Drama"],
+    "description": "Navigate the complexities of love, loss, and family as two generations come together to confront their pasts and forge a new future.",
+    "cover": "regrettingyoucover",
+    "stores": [
+      { "name": "Amazon", "price": "$13.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Waterstones", "price": "£12.99", "logo": "waterstonesLogo", "url": "https://www.waterstones.com" },
+      { "name": "Book Depository", "price": "$12.99", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+
+  {
+    "id": 46,
+    "title": "Layla",
+    "author": "Colleen Hoover",
+    "rating": 4.6,
+    "genres": ["Romantic Suspense", "Paranormal"],
+    "description": "Embark on a chilling journey of love and redemption as a grieving musician discovers a connection to the supernatural that challenges everything she knows.",
+    "cover": "laylacover",
+    "stores": [
+      { "name": "Barnes & Noble", "price": "$14.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Books-A-Million", "price": "$13.99", "logo": "bamLogo", "url": "https://www.booksamillion.com" },
+      { "name": "IndieBound", "price": "$14.99", "logo": "indieboundLogo", "url": "https://www.indiebound.org" }
+    ]
+  },
+
+  {
+    "id": 47,
+    "title": "The Recruit",
+    "author": "Robert Muchamore",
+    "rating": 4.5,
+    "genres": ["Young Adult", "Action", "Adventure"],
+    "description": "Follow James Adams as he enters the world of CHERUB, a secret organization that recruits orphaned children as intelligence agents, and embark on thrilling missions to combat crime and terrorism.",
+    "cover": "therecruitcover",
+    "stores": [
+      { "name": "Amazon", "price": "$9.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Barnes & Noble", "price": "$8.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Book Depository", "price": "$10.50", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+  
+  {
+    "id": 48,
+    "title": "Class A",
+    "author": "Robert Muchamore",
+    "rating": 4.6,
+    "genres": ["Young Adult", "Action", "Adventure"],
+    "description": "Join James Adams and his fellow CHERUB agents as they infiltrate a drug gang to gather intelligence and bring down a criminal empire.",
+    "cover": "classacover",
+    "stores": [
+      { "name": "Amazon", "price": "$10.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Barnes & Noble", "price": "$9.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Book Depository", "price": "$11.50", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+
+  {
+    "id": 49,
+    "title": "Maximum Security",
+    "author": "Robert Muchamore",
+    "rating": 4.7,
+    "genres": ["Young Adult", "Action", "Adventure"],
+    "description": "Experience high-stakes action as James Adams and his fellow agents must navigate the dangerous world of prison life to uncover a sinister plot.",
+    "cover": "maximumsecuritycover",
+    "stores": [
+      { "name": "Amazon", "price": "$10.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Barnes & Noble", "price": "$9.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Book Depository", "price": "$11.50", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+
+  {
+    "id": 50,
+    "title": "The Killing",
+    "author": "Robert Muchamore",
+    "rating": 4.8,
+    "genres": ["Young Adult", "Action", "Adventure"],
+    "description": "Join James Adams as he infiltrates a dangerous cult to prevent a deadly terrorist attack, facing his toughest mission yet.",
+    "cover": "thekillingcover",
+    "stores": [
+      { "name": "Amazon", "price": "$10.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Barnes & Noble", "price": "$9.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Book Depository", "price": "$11.50", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
+  },
+
+  {
+    "id": 51,
+    "title": "Divine Madness",
+    "author": "Robert Muchamore",
+    "rating": 4.7,
+    "genres": ["Young Adult", "Action", "Adventure"],
+    "description": "Join James Adams as he infiltrates a mysterious commune in Australia, facing the dangers of brainwashing and manipulation in his quest to uncover the truth.",
+    "cover": "divinemadnesscover",
+    "stores": [
+      { "name": "Amazon", "price": "$10.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
+      { "name": "Barnes & Noble", "price": "$9.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
+      { "name": "Book Depository", "price": "$11.50", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
+    ]
   }
+
+
 
   ]
