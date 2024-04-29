@@ -40,7 +40,8 @@ export default function BooksScreen({ navigation }) {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => navigation.navigate('GetScreen')} >
                 <LinearGradient
                     start={{ x: 0, y: 0 }} // Start of the gradient from the right
                     end={{ x: 1, y: 0 }}   // End of the gradient to the left

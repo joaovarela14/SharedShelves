@@ -561,7 +561,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     backgroundColor: '#fff',
-    paddingBottom: 95,
+
 
 
     padding: 30
@@ -705,9 +705,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white', // Cor do texto
     textAlign: 'center', // Centralizar texto
-    fontWeight: 'bold', // Negrito
-    
-    
+    fontWeight: 'bold', // Negrito 
   },
   buttonContainerInactive: {
     opacity: 0.3,

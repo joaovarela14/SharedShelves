@@ -87,7 +87,7 @@ export default function SearchScreen({ navigation }) {
 
       <View style={{ flexDirection: 'row', fontSize: 25, fontWeight: 'bold', justifyContent: 'space-between'}}>
         <Text style={{ fontSize: 25, fontWeight: 'bold' }}>SEARCH</Text>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 110, color: 'green'}}>{totalPoints} Points 
+        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 110, color: 'darkgreen'}}>{totalPoints} 
           <MaterialCommunityIcons name="leaf" size={20} color="green" />
         </Text>
       </View>
@@ -264,6 +264,7 @@ export default function SearchScreen({ navigation }) {
     container: {
       padding: 30,
       marginTop: 30,
+      paddingBottom: 75,
     },
 
     input: {

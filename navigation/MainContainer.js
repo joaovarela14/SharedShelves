@@ -17,6 +17,7 @@ import FirstPage from './screens/FirstPage';
 import Login from './screens/Login';
 import Register from './screens/Register';
 import BookDetails from './screens/BookDetails';
+import GetScreen from './screens/Get';
 
 // Screen names
 const HomeScreenName = 'Home';
@@ -37,8 +38,11 @@ export function MainTabNavigator() {
     <Tab.Navigator
       initialRouteName='FirstPage'
       
+      
       screenOptions={({ route }) => ({
         headerShown: false,
+
+        tabBarHideOnKeyboard: true,
         
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -80,10 +84,11 @@ export function MainTabNavigator() {
           shadowOpacity: 0,
           elevation: 0,
           height: 60,
-          position: 'absolute',
+          width: '95%',
+
           bottom: 13,
-          left: 17,
-          right: 17,
+          left: 10,
+          right: 10,
           borderRadius: 10,
           
         },
@@ -104,6 +109,7 @@ export function MainTabNavigator() {
       <Tab.Screen name="Donate" component={DonateScreen} options={{ tabBarButton: () => null }} />
       <Tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarButton: () => null }} />
       <Tab.Screen name="BookDetails" component={BookDetails} options={{ tabBarButton: () => null }} />
+      <Tab.Screen name="GetScreen" component={GetScreen} options={{ tabBarButton: () => null }} />
     </Tab.Navigator>
   );
 }
@@ -118,14 +124,16 @@ export default function MainContainer() {
 
         }}
       >
-         {/*<Stack.Screen name="FirstPage" component={FirstPage} /> */}
+         {/* <Stack.Screen name="FirstPage" component={FirstPage} /> */}
         <Stack.Screen name="MainTabs" component={MainTabNavigator} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Donate" component={DonateScreen} />
+        <Stack.Screen name="GetScreen" component={GetScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="BookDetails" component={BookDetails} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
