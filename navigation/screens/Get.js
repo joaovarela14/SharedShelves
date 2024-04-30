@@ -1,22 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, NumberInput, ScrollView, Alert, } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, NumberInput, ScrollView, Alert, Modal } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import LottieView from 'lottie-react-native';
 
 import booksData from '../../books.json';
 
 
 export default function GetBook({ navigation }) {
+  const resetFieldsAndNavigate = () => {
+    setTitle('');
+    setSuggestions([]);
+    setBookState('');
+    setSearchQuery('');
+    setUserCount('');
+    setSelectedCity('City');
+    navigation.navigate('Book');
+    setModalVisible(false);
+    setLastModalVisible(false);
+    setDetailsModalVisible(false);
+
+  };
 
   const checkFields = () => {
     let hasError = false;
-
-    // Resetting error messages at the start
     setErrorTitle('');
     setErrorBookState('');
     setErrorCity('');
     setErrorUserCount('');
 
-    // Checking each field and setting errors if necessary
     if (!title.trim()) {
       setErrorTitle("Please enter a title.");
       hasError = true;
@@ -37,7 +49,6 @@ export default function GetBook({ navigation }) {
       hasError = true;
     }
 
-    // Return false if there is any error, otherwise true
     if (hasError) {
       return false;
     }
@@ -68,7 +79,7 @@ export default function GetBook({ navigation }) {
     'Setubal': ['Setúbal Literária', 'Livraria do Sado', 'Papelaria Sadina', 'Livros à Beira-Mar', 'Cantinho do Livro Setubalense'],
     'Viseu': ['Viseu de Letras', 'Espaço Dão', 'Livraria Beirã', 'Cantinho do Livro Viseense', 'Biblioteca Viseu'],
     'Viana do Castelo': ['Livraria do Lima', 'Cantinho Vianense', 'Papelaria do Castelo', 'Viana Literária', 'Livros e Mar']
-};
+  };
 
 
   const cities = {
@@ -105,28 +116,40 @@ export default function GetBook({ navigation }) {
     );
 
     setSuggestions(filteredSuggestions);
+    setTitle(query);
     setShowSuggestions(true);
   };
 
+  const onClose = () => {
+    setLastModalVisible(!lastModalVisible);
+  };
+
+  const openLast = () => {
+    setLastModalVisible(!lastModalVisible);
+  };
+
   const handleSearch = () => {
-    setShowSuggestions(false); 
+    setShowSuggestions(false);
   };
 
   const storesGenerator = () => {
+    if (!checkFields()) {
+      return;
+    }
     const storeList = lojas[selectedCity];
     const randomCount = Math.floor(Math.random() * 5) + 1;
-    const shuffledStores = storeList.sort(() => 0.5 - Math.random()); 
+    const shuffledStores = storeList.sort(() => 0.5 - Math.random());
     const selectedStores = shuffledStores.slice(0, randomCount);
 
     console.log(selectedStores);
     return selectedStores
   }
 
-  
+
   const PointsGenerator = () => {
     let min, max;
     let Points = 0;
-  
+
     switch (bookState) {
       case 'new':
         min = 800;
@@ -141,8 +164,8 @@ export default function GetBook({ navigation }) {
         max = 400;
         break;
       default:
-        min = 1; 
-        max = 100; 
+        min = 1;
+        max = 100;
         break;
     }
 
@@ -163,12 +186,40 @@ export default function GetBook({ navigation }) {
         min = min - 400;
         max = max - 400;
         break;
-  };
+    };
     Points = Math.floor(Math.random() * (max - min + 1)) + min;
-    console.log(Points);
+
+    if (Points < 0) {
+      Points = 50;
+    }
+
     return Points;
-}
-  
+  }
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [stores, setStores] = useState([]);
+  const [points, setPoints] = useState(0);
+  const [lastModalVisible, setLastModalVisible] = useState(false);
+
+  const handleOpenModal = () => {
+    if (!checkFields()) {
+      return;
+    }
+    setStores(storesGenerator());
+    setPoints(PointsGenerator());
+    setModalVisible(true);
+  };
+
+
+
+  const [detailsModalVisible, setDetailsModalVisible] = useState(false);
+  const [selectedStore, setSelectedStore] = useState({ name: '', points: 0 });
+
+  const handleStoreSelect = (store) => {
+    setSelectedStore(store);
+    setDetailsModalVisible(true);
+  };
+
 
 
 
@@ -189,11 +240,11 @@ export default function GetBook({ navigation }) {
         <Text style={{ marginLeft: 10, fontSize: 20, fontWeight: 'bold', marginTop: 15, marginBottom: 20 }}>Informations about the book:</Text>
 
         <View style={styles.labelContainer}>
-          <Text style={styles.label}>Title:</Text>
+          <Text style={styles.label}>Book:</Text>
           <Text style={styles.errorText}>{errorTitle}</Text>
         </View>
         <TextInput
-          placeholder="Search title or author"
+          placeholder="Search your book"
           style={styles.input}
           value={searchQuery}
           onChangeText={updateSearchQuery}
@@ -205,7 +256,7 @@ export default function GetBook({ navigation }) {
                 key={index}
                 style={styles.suggestionItem}
                 onPress={() => {
-                  setSearchQuery(suggestion.title); 
+                  setSearchQuery(suggestion.title);
                   setShowSuggestions(false);
                   setTitle(suggestion.title);
                 }}
@@ -322,15 +373,97 @@ export default function GetBook({ navigation }) {
 
 
         <View style={styles.centeredcontainer}>
-          <TouchableOpacity style={styles.buttonContainer} onPress={PointsGenerator}>
+          <TouchableOpacity style={styles.buttonContainer} onPress={handleOpenModal}>
             <Text style={styles.buttonText}>Search Book</Text>
           </TouchableOpacity>
         </View>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={modal_styles.centeredView}>
+            <View style={modal_styles.modalView}>
+              <ScrollView>
+                {stores.map((store, index) => (
+                  <TouchableOpacity key={index} style={modal_styles.storeContainer} onPress={() => handleStoreSelect(store)}>
+                    <Text style={modal_styles.storeText}>{store}: {points} <MaterialCommunityIcons name="leaf" size={20} color="green" /></Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+              <TouchableOpacity
+                style={[modal_styles.button, modal_styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text>Hide Modal</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={detailsModalVisible}
+          onRequestClose={() => {
+            setDetailsModalVisible(!detailsModalVisible);
+          }}
+        >
+          <View style={modal_styles.centeredView}>
+            <View style={modal_styles.modalView}>
+              <Text style={modal_styles.modalText}>Store Details</Text>
+              <Text style={modal_styles.storeText}>Name: {selectedStore}</Text>
+              <Text style={modal_styles.storeText}>Points: {points} <MaterialCommunityIcons name="leaf" size={20} color="green" /> </Text>
+              <Text style={modal_styles.storeText}>Schedule: Open from 10:00 to 20:00  </Text>
+              <TouchableOpacity
+                style={[modal_styles.button, modal_styles.buttonClose]}
+                onPress={() => {
+                  openLast();  // Presuming openLast is another function you want to run
+                  setDetailsModalVisible(!detailsModalVisible);
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <Text>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={lastModalVisible}
+          onRequestClose={!lastModalVisible}
+        >
+          <View style={modal_styles.centeredView}>
+            <View style={modal_styles.modalView}>
+            <Text style={modal_styles.modalText}>Your book has been reserved! {points} points have been deducted, leaving you with a total of: </Text>
+
+
+              <LottieView
+                source={require('../../assets/points.json')}
+                autoPlay
+                loop
+                style={styles.lottieStyle}
+              />
+              <TouchableOpacity onPress={resetFieldsAndNavigate}>
+                <Text style={styles.buttonText}>OK</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
       </ScrollView>
 
     </View>
   );
 }
+
+
 
 
 const styles = StyleSheet.create({
@@ -416,7 +549,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     height: 50,
     width: 200,
-    marginLeft: 15,
+    marginLeft: 21,
     borderColor: 'black',
     borderWidth: 5,
     borderRadius: 55,
@@ -469,5 +602,63 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'lightgray',
   },
+  lottieStyle: {
+    width: 100,
+    height: 100,
+  }
 
+});
+
+const modal_styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: '#addfad',
+    marginTop: 20,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+
+  },
+  storeContainer: {
+    backgroundColor: '#F0F0F0', // Light grey background for each store container
+    padding: 10,
+    marginVertical: 5,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#DDD', // Soft border color
+    width: 250 // Fixed width, adjust as needed
+  },
+  storeText: {
+    textAlign: 'center',
+    color: '#333', // Darker text for better readability
+    fontSize: 16,
+  }
 });
