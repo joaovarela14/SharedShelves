@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, NumberInpu
 import { Picker } from '@react-native-picker/picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
+import { useGlobalState } from './GlobalContext';
 
 import booksData from '../../books.json';
 
@@ -68,6 +69,8 @@ export default function GetBook({ navigation }) {
   const [errorDate, setErrorDate] = useState('');
   const [errorUserCount, setErrorUserCount] = useState('');
 
+  const { totalPoints, setTotalPoints } = useGlobalState();
+
   const lojas = {
     'Lisboa': ['Livraria Lusitana', 'Espaço de Leitura Lisboa', 'Papelaria dos Navegadores', 'Cantinho do Livro', 'Portal Literário'],
     'Porto': ['Livraria do Dragão', 'Cantinho do Porto', 'Alfarrabista Tripeiro', 'Espaço Douro', 'Papelaria Portuense'],
@@ -113,6 +116,7 @@ export default function GetBook({ navigation }) {
       book.title.toLowerCase().includes(query.toLowerCase()) ||
       book.author.toLowerCase().includes(query.toLowerCase()) ||
       (book.genres && book.genres.some(genre => genre.toLowerCase().includes(query.toLowerCase())))
+
     );
 
     setSuggestions(filteredSuggestions);
@@ -243,29 +247,36 @@ export default function GetBook({ navigation }) {
           <Text style={styles.label}>Book:</Text>
           <Text style={styles.errorText}>{errorTitle}</Text>
         </View>
-        <TextInput
-          placeholder="Search your book"
-          style={styles.input}
-          value={searchQuery}
-          onChangeText={updateSearchQuery}
-        />
-        {showSuggestions && (
-          <View style={styles.suggestionsContainer}>
-            {suggestions.map((suggestion, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.suggestionItem}
-                onPress={() => {
-                  setSearchQuery(suggestion.title);
-                  setShowSuggestions(false);
-                  setTitle(suggestion.title);
-                }}
-              >
-                <Text>{suggestion.title}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
+
+        
+        <View style={{ flex: 1 }}>
+          <TextInput
+            placeholder="Search your book"
+            style={styles.input}
+            value={searchQuery}
+            onChangeText={updateSearchQuery}
+          />
+          {showSuggestions && (
+            <View style={styles.suggestionsContainer}>
+              {suggestions.map((suggestion, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.suggestionItem}
+                  onPress={() => {
+                    setSearchQuery(suggestion.title);
+                    setShowSuggestions(false);
+                    setTitle(suggestion.title);
+                  }}
+                >
+                  <Text>{suggestion.title}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+          
+        </View>
+
+
 
 
 
@@ -422,9 +433,13 @@ export default function GetBook({ navigation }) {
               <TouchableOpacity
                 style={[modal_styles.button, modal_styles.buttonClose]}
                 onPress={() => {
-                  openLast();  // Presuming openLast is another function you want to run
                   setDetailsModalVisible(!detailsModalVisible);
                   setModalVisible(!modalVisible);
+                  openLast();
+                  if (totalPoints > points) {
+                    setTotalPoints(totalPoints - points);
+                  }
+
                 }}
               >
                 <Text>Confirm</Text>
@@ -441,7 +456,13 @@ export default function GetBook({ navigation }) {
         >
           <View style={modal_styles.centeredView}>
             <View style={modal_styles.modalView}>
-            <Text style={modal_styles.modalText}>Your book has been reserved! {points} points have been deducted, leaving you with a total of: </Text>
+              {totalPoints < points ? <Text style={modal_styles.modalText}>You don't have enough points to reserve this book. </Text>
+                :
+                <Text style={modal_styles.modalText}>Your book has been reserved! {points} points have been deducted, leaving you with a total of:
+                  <Text style={modal_styles.pointsText}>{totalPoints}</Text>
+                  <MaterialCommunityIcons name="leaf" size={20} color="green" />
+                </Text>
+              }
 
 
               <LottieView
@@ -514,10 +535,13 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     height: 40,
-    marginLeft: 20,
+    marginLeft: 15,
     width: 300,
     borderRadius: 7,
   },
+
+
+
   inputLabel: {
     marginLeft: 10,
     marginRight: 10,
@@ -573,6 +597,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.75,
     shadowRadius: 15,
+    
     borderColor: '#000',
     borderRadius: 35,
   },
@@ -590,17 +615,26 @@ const styles = StyleSheet.create({
     marginLeft: 20
   },
   suggestionsContainer: {
-    backgroundColor: 'white',
+    marginTop: 5,
+    backgroundColor: '#EEEEEE',
     position: 'absolute',
     top: 35,
     left: 0,
     right: 0,
     zIndex: 1,
+    borderWidth: 0.5,
+    borderRadius: 5,
+
+    shadowColor: 'black',
+    
+    marginBottom: 10,
+    marginLeft: 15,
+    width: 300,
   },
   suggestionItem: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: 'lightgray',
+    borderBottomColor: 'black',
   },
   lottieStyle: {
     width: 100,
@@ -660,5 +694,10 @@ const modal_styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333', // Darker text for better readability
     fontSize: 16,
+  },
+  pointsText: {
+    fontSize: 18, // Make the points stand out
+    fontWeight: 'bold',
+    color: 'green', // Example color for emphasis
   }
 });

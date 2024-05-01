@@ -33,8 +33,6 @@ export default function DonateScreen({ navigation }) {
   const [bookPoints, setBookPoints] = useState(0);
   const {totalPoints, setTotalPoints} = useGlobalState();
 
-
-
   const [selectedCity, setSelectedCity] = useState('City');
   const [selectedStore, setSelectedStore] = useState('Store');
 
@@ -212,7 +210,7 @@ export default function DonateScreen({ navigation }) {
 
     if (checkFields()) {
       setBooks([...books, newBook]);
-      setTotalPoints(totalPoints + pontos);
+      
       setModalVisible(true);
       reset();
     }
@@ -257,6 +255,7 @@ export default function DonateScreen({ navigation }) {
       return;
     }
     setSummaryModalVisible(true); // Show the summary modal
+    setTotalPoints(totalPoints + bookPoints);
   };
 
   const RemoveBook = (index) => {
@@ -365,7 +364,7 @@ export default function DonateScreen({ navigation }) {
             ]}
             onPress={() => setBookState('barelynew')}
           >
-            <Text style={styles.bookStateText}>Barely New</Text>
+            <Text style={styles.bookStateText}>Barely Used</Text>
           </TouchableOpacity>
 
 
@@ -400,14 +399,19 @@ export default function DonateScreen({ navigation }) {
         </View>
 
         <View style={styles.centeredcontainer}>
-          <TouchableOpacity style={styles.buttonContainer} onPress={addBook}>
-            <Text style={styles.buttonText}>Add Book</Text>
+          <TouchableOpacity style={styles.buttonContainer} >
+            <Text style={styles.buttonText} onPress={addBook}>Add Book</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.centeredcontainer}>
           {books.length > 0 ? (
-            <TouchableOpacity style={styles.buttonContainer} onPress={displayBooksSummary}>
+            <TouchableOpacity style={styles.buttonContainer} 
+              onPress={() => {
+                displayBooksSummary();  // Call the first function
+                           // Call the second function
+              }}
+            >
               <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>) : (
             <TouchableOpacity style={styles.buttonContainerInactive}>
