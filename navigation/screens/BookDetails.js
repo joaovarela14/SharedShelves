@@ -59,10 +59,18 @@ function BookDetailsContent({ route }) {
     'harrypotterbook': require('../../assets/harrypotterbook.jpg'),
     'portatrancada': require('../../assets/portatrancada.jpeg'),
     'stephenking': require('../../assets/stephenking.jpg'),
-    // Add other images as needed
+    
+  };
+  const defaultCover = require('../../assets/defaultcover.jpeg');
+
+  const getImageForBook = (coverKey) => {
+    // Verifica se o coverKey existe no imageMap, senão retorna a imagem padrão.
+    return imageMap[coverKey] || defaultCover;
   };
 
-  const coverImage = book.cover ? imageMap[book.cover] : null;
+  const coverImage = getImageForBook(book.cover);
+  console.log('Cover image being used:', coverImage);
+  
   const storeLogos = book.stores
   .map(store => ({
     ...store,
@@ -177,7 +185,7 @@ const styles = StyleSheet.create({
   bookRating: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'gold',
+    color: 'green',
   },
   bookGenres: {
     fontSize: 16,

@@ -12,6 +12,8 @@ export default function SearchScreen({ navigation }) {
   const [searchHistory, setSearchHistory] = useState([]); // Novo estado para armazenar o histórico de buscas
   const [searchResults, setSearchResults] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalData, setModalData] = useState([]);
+  const [modalVisible2, setModalVisible2] = useState(false);
   const scrollViewRef = useRef();
 
   const topBooks = [
@@ -33,6 +35,15 @@ export default function SearchScreen({ navigation }) {
     // Add other images as needed
   };
 
+  const defaultCover = require('../../assets/defaultcover.jpeg');
+
+  const getImageForBook = (coverKey) => {
+    // Verifica se o coverKey existe no imageMap, senão retorna a imagem padrão.
+    return imageMap[coverKey] || defaultCover;
+  };
+  const coverImage = getImageForBook(searchResults.cover);
+  console.log(searchResults.cover);
+  console.log('Cover Image:', coverImage);
 
   const handleSearch = () => {
     if (!searchQuery.trim()) {
@@ -79,6 +90,23 @@ export default function SearchScreen({ navigation }) {
 
   const { totalPoints, addPoints } = useGlobalState();
 
+  const handleGenrePress = (genre) => {
+    // Filtrar os livros que contêm o gênero especificado
+    const filteredBooks = booksData.filter(book =>
+      book.genres.includes(genre)
+    );
+    console.log('Filtered books:', filteredBooks);
+  };
+
+  const openModalWithGenre = (genre) => {
+    const filteredBooks = booksData.filter(book => book.genres.includes(genre));
+    setModalData(filteredBooks);
+    setModalVisible2(true);
+  };
+  
+  const closeModal2 = () => {
+    setModalVisible2(false);
+  };
 
   return (
     // SEARCH SCREEN
@@ -173,7 +201,7 @@ export default function SearchScreen({ navigation }) {
                   }}
                   style={styles.modalItem}
                 >
-                  <Image source={imageMap[item.cover]} style={styles.modalImage} />
+                  <Image source={coverImage} style={styles.modalImage} />
                   <View style={styles.modalTextContainer}>
                     <Text style={styles.modalTitle}>{item.title}</Text>
                     <Text style={styles.modalAuthor}>{item.author}</Text>
@@ -184,6 +212,43 @@ export default function SearchScreen({ navigation }) {
               )}
             />
             <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+              <Text>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible2}
+        onRequestClose={closeModal2}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <FlatList
+              data={modalData}
+              keyExtractor={item => item.id.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    closeModal2();
+                    setSelectedBookIndex(item.id);
+                    navigation.navigate('BookDetails');
+                  }}
+                  style={styles.modalItem}
+                >
+                  <Image source={coverImage} style={styles.modalImage} />
+                  <View style={styles.modalTextContainer}>
+                    <Text style={styles.modalTitle}>{item.title}</Text>
+                    <Text style={styles.modalAuthor}>{item.author}</Text>
+                    <Text style={styles.modalGenres}>{item.genres.join(', ')}</Text>
+                    <Text style={styles.modalRating}>{item.rating} ★</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+            <TouchableOpacity onPress={closeModal2} style={styles.closeButton}>
               <Text>Close</Text>
             </TouchableOpacity>
           </View>
@@ -212,47 +277,41 @@ export default function SearchScreen({ navigation }) {
       
         <View>
           <Text style={styles.genreHeader}>Explore Popular Genres</Text>
-          <View style={styles.genreList}>
-            <TouchableOpacity style={styles.genreItem}>
-              <Text style={styles.genreText}>Classics</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.genreItem}>
-              <Text style={styles.genreText}>Romance</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.genreItem}>
-              <Text style={styles.genreText}>Fantasy</Text>
-            </TouchableOpacity>
 
-          </View>
           <View style={styles.genreList}>
-            <TouchableOpacity style={styles.genreItem}>
-                <Text style={styles.genreText}>Mystery</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.genreItem}>
-                <Text style={styles.genreText}>Horror</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.genreItem}>
-                <Text style={styles.genreText}>Science Fiction</Text>
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => openModalWithGenre('Classic')} style={[styles.genreItem, { backgroundColor: '#9DCC9B' }]}>
+              <Text style={styles.genreTextOverlay}>Classic</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => openModalWithGenre('Romance')} style={styles.genreItem}>
+              <Image source={require('../../assets/romance.jpg')} style={styles.genreImage} />
+              <Text style={styles.genreTextOverlay}>Romance</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => openModalWithGenre('Fantasy')} style={[styles.genreItem, { backgroundColor: '#53A577' }]}>
+              <Text style={styles.genreTextOverlay}>Fantasy</Text>
+            </TouchableOpacity>
           </View>
+
           <View style={styles.genreList}>
-            <TouchableOpacity style={styles.genreItem}>
-                <Text style={styles.genreText}>Mystery</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.genreItem}>
-                <Text style={styles.genreText}>Horror</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.genreItem}>
-                <Text style={styles.genreText}>Science Fiction</Text>
+            <TouchableOpacity onPress={() => openModalWithGenre('Mystery')} style={[styles.genreItem, { backgroundColor: '#99CD85' }]}>
+              <Text style={styles.genreTextOverlay}>Mystery</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => openModalWithGenre('Adventure')} style={[styles.genreItem, { backgroundColor: '#7EC096' }]}>
+              <Text style={styles.genreTextOverlay}>Adventure</Text>
+            </TouchableOpacity>
+              <TouchableOpacity onPress={() => openModalWithGenre('Thriller')} style={[styles.genreItem, { backgroundColor: '#B2DCBE' }]}>
+                <Text style={styles.genreTextOverlay}>Thriller</Text>
               </TouchableOpacity>
           </View>
+
           <View style={styles.genreHeader}> 
             <TouchableOpacity style={styles.exploreButton}>
-                <Text style={styles.exploreButtonText}>EXPLORE ALL GENRES</Text>
+                <Text style={styles.exploreButtonText}>Explore All Genres</Text>
             </TouchableOpacity>
           </View>
 
         </View>
+
+        
       </ScrollView>
     </View> //VIEW DO CONTAINER TODO
 
@@ -264,7 +323,7 @@ export default function SearchScreen({ navigation }) {
     container: {
       padding: 30,
       marginTop: 30,
-      paddingBottom: 75,
+      
     },
 
     input: {
@@ -417,7 +476,6 @@ export default function SearchScreen({ navigation }) {
     modalImage: {
       width: 100,
       height: 150,
-      resizeMode: 'cover',
       marginRight: 10,
     },
     modalTextContainer: {
@@ -467,23 +525,44 @@ export default function SearchScreen({ navigation }) {
       flexDirection: 'row',
       justifyContent: 'space-around',
       width: '100%',
-      marginBottom: 10,
+
     },
-    genreItem: {
-      backgroundColor: '#ccc', // Substitua pela cor de fundo desejada ou imagem
-      padding: 10,
-      borderRadius: 5,
-    },
+
     genreText: {
       color: 'white', // Substitua pela cor do texto desejada
     },
     exploreButton: {
-      backgroundColor: 'blue', // Substitua pela cor de fundo do botão "Explorar todos"
+      backgroundColor: '#addfad',      
       padding: 10,
       borderRadius: 5,
+      marginTop: 10,
     },
     exploreButtonText: {
-      color: 'white', // Substitua pela cor do texto do botão "Explorar todos"
+      color: 'black', // Substitua pela cor do texto do botão "Explorar todos"
+      textAlign: 'center',
       fontWeight: 'bold',
+      fontSize: 16,
+    },
+    genreItem: {
+      margin: 3,
+      width: '32%', // defina conforme necessário
+      height: 60, // defina conforme necessário
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative', // Adiciona um contexto de posicionamento para os filhos absolutos
+    },
+    genreImage: {
+      width: '100%',
+      height: '100%', // A imagem preenche todo o TouchableOpacity
+    },
+    genreTextOverlay: {
+      position: 'absolute', // Posiciona sobre a imagem
+      color: 'black', // Cor do texto
+      fontWeight: 'bold',
+      fontSize: 17,
+      // Adicione sombra ao texto para melhor leitura sobre a imagem
+      textShadowColor: 'rgba(255, 255, 255, 0.25)',
+      textShadowOffset: { width: -1, height: 1 },
+      textShadowRadius: 10,
     },
   });
