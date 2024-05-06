@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, ToastAndroid, Linking } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -37,9 +37,10 @@ export default function BookDetails({ navigation }) {
 }
 
 function BookDetailsContent({ route }) {
-  const { selectedBookIndex } = useGlobalState();
+  const { selectedBookIndex, wishlist, addToWishlist, removeFromWishlist} = useGlobalState();
   const book = booksData[selectedBookIndex];
   console.log('Book:', book);
+  const [isInWishlist, setIsInWishlist] = useState(wishlist.includes(selectedBookIndex));
 
   const [isCopied, setIsCopied] = useState(false);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
@@ -77,6 +78,20 @@ function BookDetailsContent({ route }) {
     });
   };
 
+  useEffect(() => {
+    setIsInWishlist(wishlist.includes(selectedBookIndex));
+  }, [wishlist, selectedBookIndex]);
+
+  const toggleWishlist = () => {
+    if (isInWishlist) {
+      removeFromWishlist(selectedBookIndex);
+      ToastAndroid.show('Removed from wishlist!', ToastAndroid.SHORT);
+    } else {
+      addToWishlist(selectedBookIndex);
+      ToastAndroid.show('Added to wishlist!', ToastAndroid.SHORT);
+    }
+  };
+
   return (
     
     <ScrollView style={styles.container}>
@@ -87,7 +102,12 @@ function BookDetailsContent({ route }) {
         <View style={styles.bookInfo}>
           <Text style={styles.bookTitle}>{book.title}</Text>
           <Text style={styles.bookAuthor}>{book.author}</Text>
-          <Text style={styles.bookRating}>{`${book.rating} ★`}</Text>
+          <View style={styles.ratingContainer}>
+            <Text style={styles.bookRating}>{`${book.rating} ★`}</Text>
+            <TouchableOpacity onPress={toggleWishlist} style={{marginLeft:15, marginTop:2}}>
+              <Ionicons name={isInWishlist ? 'heart' : 'heart-outline'} size={24} color="red"/>            
+              </TouchableOpacity>
+          </View>
           <Text style={styles.bookGenres}>{book.genres.join(' / ')}</Text>
           
           <TouchableOpacity onPress={() => setDescriptionExpanded(!descriptionExpanded)}>
@@ -178,6 +198,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: 'gold',
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   bookGenres: {
     fontSize: 16,

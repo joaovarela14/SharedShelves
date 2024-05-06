@@ -18,6 +18,7 @@ import Login from './screens/Login';
 import Register from './screens/Register';
 import BookDetails from './screens/BookDetails';
 import GetScreen from './screens/Get';
+import ListsScreen from './screens/ListsScreen';
 
 // Screen names
 const HomeScreenName = 'Home';
@@ -110,6 +111,7 @@ export function MainTabNavigator() {
       <Tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarButton: () => null }} />
       <Tab.Screen name="BookDetails" component={BookDetails} options={{ tabBarButton: () => null }} />
       <Tab.Screen name="GetScreen" component={GetScreen} options={{ tabBarButton: () => null }} />
+      <Tab.Screen name="ListsScreen" component={ListsScreen} options={{ tabBarButton: () => null }} />
     </Tab.Navigator>
   );
 }
@@ -133,6 +135,7 @@ export default function MainContainer() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="BookDetails" component={BookDetails} />
+        <Stack.Screen name="ListsScreen" component={ListsScreen} />
         
       </Stack.Navigator>
     </NavigationContainer>

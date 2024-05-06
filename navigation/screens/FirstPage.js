@@ -17,7 +17,7 @@ export default function FirstPage({navigation}) {
             </View>
             <View style={{marginTop: 50}}>
                 <TouchableOpacity style={styles.botaoLogin}
-                onPress={() => navigation.navigate('Login')} >
+                onPress={() => navigation.navigate('MainTabs')} >
                     <Text style={{ color: 'white', fontSize: 20 }}>Login</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Register')}
