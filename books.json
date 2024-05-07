@@ -16,7 +16,7 @@
 
   {
     "id": 1,
-    "title": "A Porta Trancada",
+    "title": "The Locked Door",
     "author": "Freida McFadden",
     "rating": 4.5,
     "genres": ["Thriller", "Mystery"],
@@ -572,7 +572,7 @@
     "rating": 4.8,
     "genres": ["Romance", "Contemporary", "New Adult"],
     "description": "Delve into a poignant tale of love, resilience, and empowerment as a young woman confronts her past and forges a path toward a better future.",
-    "cover": "itendswithuscover",
+    "cover": "itendswithus",
     "stores": [
       { "name": "Amazon", "price": "$13.99", "logo": "amazonLogo", "url": "https://www.amazon.com" },
       { "name": "Waterstones", "price": "£12.99", "logo": "waterstonesLogo", "url": "https://www.waterstones.com" },
