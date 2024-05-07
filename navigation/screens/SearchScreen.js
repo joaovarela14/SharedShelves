@@ -214,18 +214,21 @@ export default function SearchScreen({ navigation }) {
               <MaterialCommunityIcons name="leaf" size={20} color="green" />
             </Text>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', borderColor: 'gray', borderWidth: 1, borderRadius: 5, paddingVertical: 5, paddingHorizontal: 10, marginTop: 20, zIndex: 1 }}>
+
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', borderColor: 'gray', borderWidth: 1, borderRadius: 5, paddingVertical: 5, paddingHorizontal: 10, marginTop: 20, zIndex: 1,width:"100%" }}>
             <Ionicons name="search" size={20} color="gray" style={{ marginRight: 10 }} />
             <TextInput
               placeholder="Search title or author"
               style={{
-                width: 210,
+                width: "73%",
                 fontSize: 14,
                 paddingVertical: 5,
               }}
               value={searchQuery}
               onChangeText={updateSearchQuery}
             />
+
             {showSuggestions && (
               <View style={styles.suggestionsContainer}>
                 {suggestions.map((suggestion, index) => (
@@ -243,6 +246,7 @@ export default function SearchScreen({ navigation }) {
                 ))}
               </View>
             )}
+
             <TouchableOpacity
               onPress={handleSearch}
               style={styles.button}>
@@ -252,7 +256,7 @@ export default function SearchScreen({ navigation }) {
           </View>
 
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' ,width:"98%"}}>
             <Text style={{ fontSize: 25, fontWeight: 'bold', marginTop: 10, zIndex: 0 }}>Recent</Text>
             <TouchableOpacity onPress={clearSearchHistory} style={styles.buttonclear}>
               <Text style={styles.buttonText}>Clear</Text>
@@ -460,7 +464,7 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    width: '100%',
+    width: '95%',
     marginBottom: 10,
     padding: 10,
     borderWidth: 1,
@@ -472,7 +476,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#3A8D5B',
     padding: 8,
     borderRadius: 5,
-    marginLeft: 24,
+    marginRight: 15,
+    alignItems: 'flex-end'
   },
 
   buttonclear: {
@@ -481,7 +486,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 10,
     marginBottom: 10,
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
 
   buttonText: {

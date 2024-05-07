@@ -50,7 +50,7 @@ export function MainTabNavigator() {
           let sizeIcon = 28;
           let underlineStyle = {};
 
-          if (route.name === HomeScreenName) {
+          if (route.name === HomeScreenName ) {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === SearchScreenName) {
             iconName = focused ? 'search' : 'search-outline';
