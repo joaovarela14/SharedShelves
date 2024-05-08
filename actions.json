@@ -1,0 +1,23 @@
+[
+  {
+    "type": "friendAddToWishlist",
+    "name": "John Doe",
+    "book": "Harry Potter 7"
+  },
+
+  {
+    "type": "newPromo",
+    "date": "April 4th-5th",
+    "location": "Fnac",
+    "discount": "30%",
+    "bookType": "Sci-Fi"
+  },
+
+  {
+    "id": 2,
+    "type": "newBookAvailable",
+    "book": "Ugly Love",
+    "numPoints": "250",
+    "location": "Viseu's Starbucks"
+  }
+]
