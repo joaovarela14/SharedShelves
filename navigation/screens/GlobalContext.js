@@ -58,6 +58,19 @@ const toggleListPrivacy = (listName) => {
   setWishlist(updatedWishlist); // Atualiza a wishlist com a nova lista filtrada
   };
 
+  const bookCover = {
+    'acriada': require('../../assets/acriada.jpeg'),
+    'harrypotterbook': require('../../assets/harrypotterbook.jpg'),
+    'portatrancada': require('../../assets/portatrancada.jpeg'),
+    'stephenking': require('../../assets/stephenking.jpg'),
+    'behindthenet': require('../../assets/behindthenet.jpg'),
+    '1984': require('../../assets/1984.jpg'),
+    'itendswithus': require('../../assets/itendswithus.jpg'),
+    'thehousemaidsecret': require('../../assets/thehousemaidsecret.jpg'),
+    'thehousemaidiswatching': require('../../assets/thehousemaidiswatching.jpeg'),
+    'theex': require('../../assets/theexit.jpg'),
+  };
+
   
   return (
     <GlobalStateContext.Provider
@@ -73,7 +86,8 @@ const toggleListPrivacy = (listName) => {
         addBookToList,
         createList,
         removeList,
-        toggleListPrivacy
+        toggleListPrivacy,
+        bookCover,
       }}
     >
       {children}

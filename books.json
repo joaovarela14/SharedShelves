@@ -66,7 +66,7 @@
     "rating": 4.5,
     "genres": ["Thriller", "Mystery"],
     "description": "In 'The Housemaid's Secret', a sequel to the gripping 'The Housemaid', we dive back into the tangled web of lies and deceit surrounding the life of Millie, a maid with a past filled with secrets that intertwine with her employers' lives in unexpected ways.",
-    "cover": "housemaidsecretcover",
+    "cover": "thehousemaidsecret",
     "stores": [
       { "name": "Fnac", "price": "14.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
       { "name": "Bertrand", "price": "13.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
@@ -340,12 +340,12 @@
   },
   {
     "id": 23,
-    "title": "The Exit",
+    "title": "The Ex",
     "author": "Freida McFadden",
     "rating": 4.6,
     "genres": ["Thriller", "Psychological"],
     "description": "A gripping thriller about a woman trapped in a twisted game of revenge that leads her through a series of impossible choices.",
-    "cover": "exitcover",
+    "cover": "theex",
     "stores": [
       { "name": "Fnac", "price": "12.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
       { "name": "Bertrand", "price": "11.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
@@ -757,7 +757,10 @@
       { "name": "Barnes & Noble", "price": "$9.99", "logo": "barnesnobleLogo", "url": "https://www.barnesandnoble.com" },
       { "name": "Book Depository", "price": "$11.50", "logo": "bookdepoLogo", "url": "https://www.bookdepository.com" }
     ]
-  }
+  }, 
+
+
+
 
 
 

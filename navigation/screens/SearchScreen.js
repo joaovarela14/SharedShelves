@@ -31,7 +31,6 @@ export default function SearchScreen({ navigation }) {
     { source: require('../../assets/thehousemaidiswatching.jpeg') },
   ];
 
-  //METER NO GLOBAL CONTEXT PARA USAR NO SEARCH E NO DETAILS  
   const imageMap = {
     'fnacLogo': require('../../assets/fnac.png'),
     'bertrandLogo': require('../../assets/bertrand.png'),
@@ -40,30 +39,23 @@ export default function SearchScreen({ navigation }) {
     'harrypotterbook': require('../../assets/harrypotterbook.jpg'),
     'portatrancada': require('../../assets/portatrancada.jpeg'),
     'stephenking': require('../../assets/stephenking.jpg'),
-    // Add other images as needed
   };
 
-  const bookCover = {
-    'acriada': require('../../assets/acriada.jpeg'),
-    'harrypotterbook': require('../../assets/harrypotterbook.jpg'),
-    'portatrancada': require('../../assets/portatrancada.jpeg'),
-    'stephenking': require('../../assets/stephenking.jpg'),
-    'behindthenet': require('../../assets/behindthenet.jpg'),
-    '1984': require('../../assets/1984.jpg'),
-    'itendswithus': require('../../assets/itendswithus.jpg'),
-    'thehousemaidsecret': require('../../assets/thehousemaidsecret.jpg'),
-    'thehousemaidiswatching': require('../../assets/thehousemaidiswatching.jpeg'),
-
-  };
+  const {bookCover} = useGlobalState();
 
   const defaultCover = require('../../assets/defaultcover.jpeg');
-
+  
   const getImageForBook = (coverKey) => {
     const keys = Object.keys(bookCover);
+    if (bookCover[coverKey]){
+      console.log('coverKey:', coverKey);
+      return bookCover[coverKey];
+    }
     const size = keys.length;
     const index = Math.floor(Math.random() * size);
     const randomKey = keys[index];
-    return bookCover[coverKey] || bookCover[randomKey];
+    console.log('randomKey:', randomKey);
+    return bookCover[randomKey] || defaultCover;
   };
 
   const coverImage = getImageForBook(searchResults.cover);
@@ -299,7 +291,7 @@ export default function SearchScreen({ navigation }) {
               <TouchableOpacity onPress={
                 () => {
                   console.log('Search:', searchHistory[searchHistory.length - 1]);
-                  setSearchQuery("freida");
+                  setSearchQuery(searchHistory[searchHistory.length - 1]);
                   handleSearch;
                 }
               
@@ -339,7 +331,7 @@ export default function SearchScreen({ navigation }) {
                       }}
                       style={styles.modalItem}
                     >
-                      <Image source={getImageForBook(item.coverKey)} style={styles.modalImage} />
+                      <Image source={getImageForBook(item.cover)} style={styles.modalImage} />
                       <View style={styles.modalTextContainer}>
                         <Text style={styles.modalTitle}>{item.title}</Text>
                         <Text style={styles.modalAuthor}>{item.author}</Text>

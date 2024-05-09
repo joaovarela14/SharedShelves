@@ -270,6 +270,10 @@ export default function DonateScreen({ navigation }) {
       <ScrollView vertical showsVerticalScrollIndicator={false} ref={scrollViewRef}>
         <View style={styles.headerText}>
           <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Donate Book</Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 120, color: 'darkgreen' }}>{totalPoints}
+            <MaterialCommunityIcons name="leaf" size={20} color="green" />
+          </Text>
+
         </View>
 
         <View >
@@ -595,12 +599,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
+  
   label: {
     fontSize: 18,
     marginRight: 10,
     marginBottom: 10,
     marginLeft: 15,
   },
+
   labelContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -613,8 +619,12 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     marginBottom: 20,
     marginTop: 20,
-    marginLeft: 10
+    marginLeft: 10,
+    flexDirection: 'row', 
+    fontWeight: 'bold', 
+    justifyContent: 'space-between'
   },
+
   input: {
     flex: 1,
     borderWidth: 1,

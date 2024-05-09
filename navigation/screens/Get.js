@@ -69,7 +69,6 @@ export default function GetBook({ navigation }) {
   const [errorDate, setErrorDate] = useState('');
   const [errorUserCount, setErrorUserCount] = useState('');
 
-  const { totalPoints, setTotalPoints } = useGlobalState();
 
   const lojas = {
     'Lisboa': ['Livraria Lusitana', 'Espaço de Leitura Lisboa', 'Papelaria dos Navegadores', 'Cantinho do Livro', 'Portal Literário'],
@@ -214,8 +213,6 @@ export default function GetBook({ navigation }) {
     setModalVisible(true);
   };
 
-
-
   const [detailsModalVisible, setDetailsModalVisible] = useState(false);
   const [selectedStore, setSelectedStore] = useState({ name: '', points: 0 });
 
@@ -224,6 +221,7 @@ export default function GetBook({ navigation }) {
     setDetailsModalVisible(true);
   };
 
+  const { totalPoints, addPoints } = useGlobalState();
 
 
 
@@ -233,6 +231,11 @@ export default function GetBook({ navigation }) {
 
         <View style={styles.headerText}>
           <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Get Book</Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 120, color: 'darkgreen' }}>{totalPoints}
+            <MaterialCommunityIcons name="leaf" size={20} color="green" />
+
+          </Text>
+
         </View>
 
         <View >
@@ -507,7 +510,10 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     marginBottom: 20,
     marginTop: 20,
-    marginLeft: 10
+    marginLeft: 10,
+    flexDirection: 'row', 
+    fontWeight: 'bold', 
+    justifyContent: 'space-between'
   },
   informative: {
     fontSize: 15,

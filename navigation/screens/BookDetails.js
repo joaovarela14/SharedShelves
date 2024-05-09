@@ -63,10 +63,22 @@ function BookDetailsContent({ route }) {
     
   };
   const defaultCover = require('../../assets/defaultcover.jpeg');
+  const {bookCover} = useGlobalState();
 
   const getImageForBook = (coverKey) => {
     // Verifica se o coverKey existe no imageMap, senão retorna a imagem padrão.
-    return imageMap[coverKey] || defaultCover;
+
+    const keys = Object.keys(bookCover);
+    console.log(coverKey)
+    if (bookCover[coverKey]){
+      console.log('coverKey:', coverKey);
+      return bookCover[coverKey];
+    }
+    const size = keys.length;
+    const index = Math.floor(Math.random() * size);
+    const randomKey = keys[index];
+    console.log('randomKey:', randomKey);
+    return bookCover[randomKey] || defaultCover;
   };
 
   const coverImage = getImageForBook(book.cover);
@@ -105,7 +117,7 @@ function BookDetailsContent({ route }) {
     <ScrollView style={styles.container}>
       <View style={styles.bookHeader}>
 
-        <Image source={coverImage} style={styles.bookCover} />
+        <Image source={getImageForBook(book.cover)} style={styles.bookCover} />
 
         <View style={styles.bookInfo}>
           <Text style={styles.bookTitle}>{book.title}</Text>
