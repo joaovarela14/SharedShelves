@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   titleContainer: {
-    marginTop: 30,
+    marginTop: 40,
   },
   title: {
     fontSize: 30,
@@ -162,6 +162,8 @@ const styles = StyleSheet.create({
   listText: {
     fontSize: 18,
     marginTop: 10,
+    borderBottomWidth:0.7,
+    borderBottomColor: '#3A8D5B',
   },
   centeredView: {
     flex: 1,

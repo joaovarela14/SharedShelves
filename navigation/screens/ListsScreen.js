@@ -5,11 +5,11 @@ import booksData from '../../books.json';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function ListsScreen({ route, navigation }) {
-    const { listName } = route.params;
-  const { wishlist } = useGlobalState(); // Usar o hook para acessar a wishlist
+  const { listName } = route.params;
+  const { wishlist } = useGlobalState();
   const { setSelectedBookIndex } = useGlobalState();
 
-    let listData;
+  let listData;
   switch (listName) {
     case "Wishlist":
       listData = wishlist.map(bookId => booksData.find(book => book.id === bookId));
@@ -18,65 +18,95 @@ export default function ListsScreen({ route, navigation }) {
       listData = [];
       break;
   }
-  return (
-    <View style={{ flex: 1}}>
-        <View style={styles.header}>
-            <Ionicons
-            name="arrow-back"
-            size={24}
-            color="black"
-            style={{ marginLeft: 15, marginTop: 30 }}
-            onPress={() => navigation.navigate('Shelf')}
-            />
-        </View>
-        <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-        {wishlist.length > 0 ? (
-        <ScrollView>
-            {wishlist.map((bookId, index) => {
-                const book = booksData.find(b => b.id === bookId);
-                console.log('Book:', book);
-                if (!book) return null; // Certifique-se de que o livro foi encontrado
 
-                return (
-                    <View key={index} style={styles.bookItem}>
-                        <Text style={styles.bookTitle}>{book.title}</Text>
-                        <TouchableOpacity onPress={() => {setSelectedBookIndex(index);
-                          navigation.navigate('BookDetails', { bookId: book.id });}}>
-                            <Text>View Details</Text>
-                        </TouchableOpacity>
-                    </View>
-                );
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={styles.header}>
+        <Ionicons
+          name="arrow-back"
+          size={24}
+          color="black"
+          onPress={() => navigation.goBack()}
+        />
+      </View>
+      <View style={styles.pageTitleContainer}>
+        <Text style={styles.pageTitle}>{listName}</Text>
+      </View>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderTopWidth:0.5, borderRadius:20, padding:10}}>
+        {listData.length > 0 ? (
+          <ScrollView>
+            {listData.map((book, index) => {
+              if (!book) return null;
+              return (
+                <View key={index} style={styles.bookItem}>
+                  <Text style={styles.bookTitle}>{book.title}</Text>
+                  <TouchableOpacity onPress={() => {
+                    setSelectedBookIndex(book.id);
+                    navigation.navigate('BookDetails', { bookId: book.id });
+                  }}>
+                    <Text style={styles.detailsButton}>View Details</Text>
+                  </TouchableOpacity>
+                </View>
+              );
             })}
-        </ScrollView>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => navigation.navigate('Search')}
+            >
+              <Ionicons name="add-circle-outline" size={50} color="#3A8D5B" />
+            </TouchableOpacity>
+          </ScrollView>
         ) : (
-            <Text>No books in your wishlist</Text>
+          <Text>No books in your {listName}</Text>
         )}
       </View>
     </View>
   );
 }
 
+
 const styles = {
-  header: {
+    header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft:'15',
-    marginTop:'10',
+    padding: 15,
+    backgroundColor: '#f0f0f0',
+    marginTop: 30,
   },
-  button: {
-    height: 100, // Altura fixa para o TouchableOpacity
-    width: '100%', // Ocupa toda a largura do container
-    justifyContent: 'center', // Centraliza o texto verticalmente
-    alignItems: 'center', // Centraliza o texto horizontalmente
-    borderBottomWidth: 1, // Espessura da borda na parte inferior
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    flex: 1,
+  },
+  pageTitleContainer: {
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  pageTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
   },
   bookItem: {
-    padding: 20,
+    flexDirection: 'flex-start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc'
+    borderBottomColor: '#ccc',
+    height: 80,
+    
   },
   bookTitle: {
-    fontSize: 18,
-    fontWeight: 'bold'
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  detailsButton: {
+    color: '#3A8D5B',
+  },
+    addButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20,
   }
 };

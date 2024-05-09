@@ -18,7 +18,7 @@ export default function BookDetails({ navigation }) {
     <Stack.Navigator>
       <Stack.Screen
         name="Details"
-        component={BookDetailsContent}
+        component={BookDetailsContent} 
         options={({ navigation }) => ({
           headerTitle: 'Book Details',
           headerLeft: () => (
@@ -36,7 +36,7 @@ export default function BookDetails({ navigation }) {
   );
 }
 
-function BookDetailsContent({ route }) {
+function BookDetailsContent({ route, navigation}) {
   const { selectedBookIndex, wishlist, addToWishlist, removeFromWishlist} = useGlobalState();
   const book = booksData[selectedBookIndex];
   console.log('Book:', book);
@@ -60,6 +60,8 @@ function BookDetailsContent({ route }) {
     'harrypotterbook': require('../../assets/harrypotterbook.jpg'),
     'portatrancada': require('../../assets/portatrancada.jpeg'),
     'stephenking': require('../../assets/stephenking.jpg'),
+    'prideprejudicecover': require ('../../assets/prideprejudice.jpeg'),
+
     
   };
   const defaultCover = require('../../assets/defaultcover.jpeg');
@@ -182,6 +184,14 @@ function BookDetailsContent({ route }) {
             </View>
           ))}
       </View>
+      <View style={styles.getPointsContainer}>
+        <TouchableOpacity
+          style={styles.getPointsButton}
+          onPress={() => navigation.navigate('GetScreen')} // Direciona para a tela "Get"
+        >
+          <Text style={styles.getPointsButtonText}>Get with Points</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 };
@@ -301,7 +311,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62, // Sombra do cartão
     elevation: 4, // Elevação do cartão para Android
     marginVertical: 8, // Espaçamento vertical entre os cartões
-    width: 340,
+    width:'98%',
     marginLeft: 5,
   },
   storeButton: {
@@ -324,5 +334,18 @@ const styles = StyleSheet.create({
     height: 40, // Altura maior para formato de livro
   },
 
-
+  getPointsContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  getPointsButton: {
+    padding: 15,
+    backgroundColor: '#3A8D5B', // Cor de fundo verde
+    borderRadius: 10,
+  },
+  getPointsButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

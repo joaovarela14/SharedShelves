@@ -68,6 +68,7 @@ export default function GetBook({ navigation }) {
   const [errorCity, setErrorCity] = useState('');
   const [errorDate, setErrorDate] = useState('');
   const [errorUserCount, setErrorUserCount] = useState('');
+  const {setTotalPoints} = useGlobalState();
 
 
   const lojas = {
@@ -413,7 +414,7 @@ export default function GetBook({ navigation }) {
                 style={[modal_styles.button, modal_styles.buttonClose]}
                 onPress={() => setModalVisible(!modalVisible)}
               >
-                <Text>Hide Modal</Text>
+                <Text>Close</Text>
               </TouchableOpacity>
             </View>
           </View>

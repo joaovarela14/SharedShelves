@@ -69,6 +69,7 @@ const toggleListPrivacy = (listName) => {
     'thehousemaidsecret': require('../../assets/thehousemaidsecret.jpg'),
     'thehousemaidiswatching': require('../../assets/thehousemaidiswatching.jpeg'),
     'theex': require('../../assets/theexit.jpg'),
+    'prideprejudicecover': require ('../../assets/prideprejudice.jpeg'),
   };
 
   
