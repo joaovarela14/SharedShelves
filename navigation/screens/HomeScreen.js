@@ -57,6 +57,8 @@ const styles = StyleSheet.create({
   container: {
 
     backgroundColor: '#f5f5f5',
+    padding: 16,
+    flex: 1,
   },
   actionList: {
     paddingHorizontal: 16,
