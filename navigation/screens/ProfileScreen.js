@@ -16,8 +16,8 @@ export default function ProfileScreen() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={30} color="black" />
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <Ionicons name="arrow-back" size={30} color="#fff" />
         </TouchableOpacity>
         <View style={styles.headerCenter}>
           <View style={styles.avatarContainer}>
@@ -138,7 +138,7 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#fff',
     padding: 20,
   },
   header: {

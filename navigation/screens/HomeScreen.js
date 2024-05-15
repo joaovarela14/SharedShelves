@@ -8,28 +8,24 @@ export default function Feed() {
       <Text style={styles.logo}>{'SharedShelves'}</Text>
 
       <View style={styles.action}>
-        <Ionicons name="book-outline" size={24} color="black" style={styles.actionIcon} />
         <View style={styles.actionContent}>
           <Text style={styles.actionText}>⚠️ Enjoy a 20% discount on 'The Housemaid's Secret' this week! ⚠️</Text>
         </View>
       </View>
 
       <View style={styles.action}>
-        <Ionicons name="book-outline" size={24} color="black" style={styles.actionIcon} />
         <View style={styles.actionContent}>
           <Text style={styles.actionText}>Limited-time offer: 'It Ends with Us' now available!</Text>
         </View>
       </View>
 
       <View style={styles.action}>
-        <Ionicons name="book-outline" size={24} color="black" style={styles.actionIcon} />
         <View style={styles.actionContent}>
           <Text style={styles.actionText}>Get your hands on 'Overkill' by Freida McFadden, now in the top books list!</Text>
         </View>
       </View>
 
       <View style={styles.action}>
-        <Ionicons name="book-outline" size={24} color="black" style={styles.actionIcon} />
         <View style={styles.actionContent}>
           <Text style={styles.actionText}>The book 'Harry Potter and the Philosopher's Stone' is now available at Viseu's Starbucks</Text>
           <Image 
@@ -40,14 +36,12 @@ export default function Feed() {
       </View>
       
       <View style={styles.action}>
-        <Ionicons name="book-outline" size={24} color="black" style={styles.actionIcon} />
         <View style={styles.actionContent}>
           <Text style={styles.actionText}>Special offer: 'Behind the Net' by Stephanie Archer at half price!</Text>
         </View>
       </View>
 
       <View style={styles.action}>
-        <Ionicons name="book-outline" size={24} color="black" style={styles.actionIcon} />
         <View style={styles.actionContent}>
           <Text style={styles.actionText}>'1984' by George Orwell is in our top 10 books this month!</Text>
         </View>

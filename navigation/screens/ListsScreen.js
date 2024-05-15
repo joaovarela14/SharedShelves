@@ -1,23 +1,14 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity,ScrollView} from 'react-native';
-import { useGlobalState } from './GlobalContext'; // Importe o contexto
-import booksData from '../../books.json'; 
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { useGlobalState } from './GlobalContext';
+import booksData from '../../books.json';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function ListsScreen({ route, navigation }) {
   const { listName } = route.params;
-  const { wishlist } = useGlobalState();
-  const { setSelectedBookIndex } = useGlobalState();
+  const { lists, setSelectedBookIndex } = useGlobalState();
 
-  let listData;
-  switch (listName) {
-    case "Wishlist":
-      listData = wishlist.map(bookId => booksData.find(book => book.id === bookId));
-      break;
-    default:
-      listData = [];
-      break;
-  }
+  const listData = lists[listName]?.items.map(bookId => booksData.find(book => book.id === bookId)) || [];
 
   return (
     <View style={{ flex: 1 }}>
@@ -32,7 +23,7 @@ export default function ListsScreen({ route, navigation }) {
       <View style={styles.pageTitleContainer}>
         <Text style={styles.pageTitle}>{listName}</Text>
       </View>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderTopWidth:0.5, borderRadius:20, padding:10}}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderTopWidth: 0.5, borderRadius: 20, padding: 10 }}>
         {listData.length > 0 ? (
           <ScrollView>
             {listData.map((book, index) => {
@@ -64,14 +55,13 @@ export default function ListsScreen({ route, navigation }) {
   );
 }
 
-
 const styles = {
-    header: {
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
     backgroundColor: '#f0f0f0',
-    marginTop: 30,
+    marginTop: 20,
   },
   headerTitle: {
     fontSize: 20,
@@ -95,7 +85,6 @@ const styles = {
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     height: 80,
-    
   },
   bookTitle: {
     fontSize: 16,
@@ -104,7 +93,7 @@ const styles = {
   detailsButton: {
     color: '#3A8D5B',
   },
-    addButton: {
+  addButton: {
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 20,

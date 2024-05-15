@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, TextInput, Button, ScrollView, StyleSheet, Alert, ToastAndroid } from 'react-native';
-import { useGlobalState } from './GlobalContext'; // Importe o contexto
-import booksData from '../../books.json'; // Importa o arquivo JSON com dados dos livros
-import { Ionicons } from '@expo/vector-icons'; // Importe o Ionicons
+import { useGlobalState } from './GlobalContext';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ShelfScreen({ navigation }) {
   const { lists, createList, removeList, toggleListPrivacy } = useGlobalState();
   const [newListName, setNewListName] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [helpModalVisible, setHelpModalVisible] = useState(false); // Estado para o modal de ajuda
 
-  const [isPrivate, setIsPrivate] = useState(false); // Estado para controle de privacidade
+  const [isPrivate, setIsPrivate] = useState(false);
 
   const handleRemoveList = (listName) => {
     removeList(listName);
     ToastAndroid.show(`${listName} removed`, ToastAndroid.SHORT);
   };
+
   const toggleAllListsPrivacy = () => {
     Object.keys(lists).forEach(listName => {
       toggleListPrivacy(listName);
@@ -37,41 +38,49 @@ export default function ShelfScreen({ navigation }) {
       Alert.alert('Invalid name', 'Please enter a valid name for the list.');
     }
   };
-return (
+
+  return (
     <ScrollView contentContainerStyle={styles.scrollView}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>My Shelf</Text>
-      </View>
-      <TouchableOpacity style={styles.lockContainer}>
-        <Ionicons name={isPrivate ? "lock-closed-outline" : "lock-open-outline"} size={50} color="gray" onPress={toggleAllListsPrivacy}/>
-      </TouchableOpacity>
-      <View style={styles.shelfcontainer}>
-        {Object.keys(lists).map((listName, index) => (
-            <View key={index} style={styles.listItem}>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate('ListsScreen', { listName })}
-                >
-                    <Text style={styles.listText}>{listName}</Text>
-                    <View style={styles.iconContainer}>
-                      <TouchableOpacity onPress={() => handleTogglePrivacy(listName)} style={styles.iconButton}>
-                        <Ionicons name={lists[listName].isPrivate ? "lock-closed-outline" : "lock-open-outline"} size={26} color="gray" />
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={() => handleRemoveList(listName)} style={styles.iconButton}>
-                        <Ionicons name="remove-circle-outline" size={26} color="red" />
-                      </TouchableOpacity>
-                    </View>
-                </TouchableOpacity>
-
-            </View>
-        ))}
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => setModalVisible(true)}
-        >
-          <Ionicons name="add-circle-outline" size={50} color="#3A8D5B" />
+        <TouchableOpacity style={styles.lockButton} onPress={toggleAllListsPrivacy}>
+          <Ionicons name={isPrivate ? "lock-closed-outline" : "lock-open-outline"} size={30} color="gray" />
+          <Text style={styles.lockButtonText}>{isPrivate ? "Make Public" : "Make Private"}</Text>
         </TouchableOpacity>
       </View>
+      
+      <View style={styles.sectionTitleContainer}>
+        <Text style={styles.sectionTitle}>Your Lists</Text>
+        <TouchableOpacity onPress={() => setHelpModalVisible(true)} style={styles.helpIcon}>
+          <Ionicons name="help-circle-outline" size={28} color="gray" />
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.shelfContainer}>
+        {Object.keys(lists).map((listName, index) => (
+          <View key={index} style={styles.listCard}>
+            <TouchableOpacity
+              style={styles.listButton}
+              onPress={() => navigation.navigate('ListsScreen', { listName })}
+            >
+              <Text style={styles.listText}>{listName}</Text>
+            </TouchableOpacity>
+            <View style={styles.iconContainer}>
+              <TouchableOpacity onPress={() => handleTogglePrivacy(listName)} style={styles.iconButton}>
+                <Ionicons name={lists[listName].isPrivate ? "lock-closed-outline" : "lock-open-outline"} size={24} color="gray" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleRemoveList(listName)} style={styles.iconButton}>
+                <Ionicons name="remove-circle-outline" size={24} color="red" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))}
+        <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
+          <Ionicons name="add-circle-outline" size={50} color="#3A8D5B" />
+          <Text style={styles.addButtonText}>Add New List</Text>
+        </TouchableOpacity>
+      </View>
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -100,6 +109,30 @@ return (
           </View>
         </View>
       </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={helpModalVisible}
+        onRequestClose={() => {
+          setHelpModalVisible(!helpModalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>How to Create Lists</Text>
+            <Text style={styles.modalDescription}>
+              1. Click on the "Add New List" button.
+              {'\n'}2. Enter a name for your new list.
+              {'\n'}3. Click "Create List" to save.
+              {'\n'}4. You can toggle the privacy of each list by clicking on the lock icon.
+              {'\n'}5. Remove a list by clicking the remove icon.
+            </Text>
+            <View style={styles.buttonContainer}>
+              <Button color='#3A8D5B' title="Got it" onPress={() => setHelpModalVisible(false)} />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
@@ -108,62 +141,84 @@ const styles = StyleSheet.create({
   scrollView: {
     alignItems: 'center',
     justifyContent: 'flex-start',
-  },
-  lockContainer: {
-    marginTop: 30,
-    borderWidth: 2,
-    borderRadius: 10,
-    borderColor: 'gray',
-    padding: 5,
-  },
-  iconContainer: {
-    marginTop: 10,
+    padding: 20,
   },
   titleContainer: {
-    marginTop: 40,
-  },
-  title: {
-    fontSize: 30,
-    color: '#3A8D5B'
-  },
-  shelfcontainer: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    borderWidth: 2,
-    marginTop: 10,
-    width: 300,
-    borderRadius: 10,
-    borderColor: '#3A8D5B',
-    height: 500,
-  },
-  button: {
-    height: 80,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  listItem: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 10,
     width: '100%',
-    borderBottomWidth: 1,
-    borderBottomColor: '#3A8D5B',
-    borderRadius:10,
-    height: 100,
+    marginTop:30,
   },
-  addButton: {
-    marginVertical: 20,
-    justifyContent: 'center',
+  title: {
+    fontSize: 33,
+    color: 'darkgreen',
+  },
+  lockButton: {
+    flexDirection: 'row',
     alignItems: 'center',
-    height: 75,
+  },
+  lockButtonText: {
+    marginLeft: 10,
+    color: 'gray',
+  },
+  helpIcon: {
+    marginLeft: 10,
+  },
+  sectionTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    marginBottom: 10,
+    width: '100%',
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#3A8D5B',
+  },
+  shelfContainer: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  listCard: {
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    elevation: 3, // For Android shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+  },
+  listButton: {
+    flex: 1,
   },
   listText: {
     fontSize: 18,
-    marginTop: 10,
-    borderBottomWidth:0.7,
-    borderBottomColor: '#3A8D5B',
+    color: '#333',
+  },
+  iconContainer: {
+    flexDirection: 'row',
+  },
+  iconButton: {
+    marginLeft: 10,
+  },
+  addButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  addButtonText: {
+    marginLeft: 10,
+    fontSize: 18,
+    color: '#3A8D5B',
   },
   centeredView: {
     flex: 1,
@@ -199,16 +254,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: '100%',
   },
-  iconContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-      width: '100%',
-    },
-  iconButton: {
-      marginTop: 10,
-          paddingHorizontal: 10, // Adjust padding to bring icons closer together 
-    },
   individualButton: {
     marginTop: 10,
   },
+  modalText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+  modalDescription: {
+    fontSize: 16,
+    marginBottom: 15,
+  }
 });

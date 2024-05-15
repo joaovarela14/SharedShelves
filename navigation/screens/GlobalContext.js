@@ -10,20 +10,22 @@ export const GlobalStateProvider = ({ children }) => {
     Wishlist: { items: [], isPrivate: false }
 });
 
-  const addBookToList = (listName, bookId) => {
-    setLists(prevLists => {
-      const newList = [...(prevLists[listName] || []), bookId];
-      return { ...prevLists, [listName]: newList };
-    });
-  };
-
-  const removeList = (listName) => {
+const addBookToList = (listName, bookId) => {
   setLists(prevLists => {
-    const updatedLists = { ...prevLists };
-    delete updatedLists[listName];
-    return updatedLists;
+    const newList = prevLists[listName]
+      ? { ...prevLists[listName], items: [...prevLists[listName].items, bookId] }
+      : { items: [bookId], isPrivate: false };
+    return { ...prevLists, [listName]: newList };
   });
 };
+
+  const removeList = (listName) => {
+    setLists(prevLists => {
+      const updatedLists = { ...prevLists };
+      delete updatedLists[listName];
+      return updatedLists;
+    });
+  };
 
 const createList = (listName) => {
     setLists(prevLists => {
@@ -46,18 +48,18 @@ const toggleListPrivacy = (listName) => {
         return prevLists;
     });
 };
-  // Função para adicionar um livro à wishlist
-  const addToWishlist = (bookId) => {
-    // Verifica se o ID do livro já está na lista para evitar duplicatas
-    if (!wishlist.includes(bookId)) {
-      setWishlist([...wishlist, bookId]);
-    }
+  const removeBookFromList = (listName, bookId) => {
+    setLists(prevLists => {
+      const newList = (prevLists[listName]?.items || []).filter(id => id !== bookId);
+      return {
+        ...prevLists,
+        [listName]: {
+          ...prevLists[listName],
+          items: newList
+        }
+      };
+    });
   };
-  const removeFromWishlist = (bookId) => {
-  const updatedWishlist = wishlist.filter(id => id !== bookId);
-  setWishlist(updatedWishlist); // Atualiza a wishlist com a nova lista filtrada
-  };
-
   const bookCover = {
     'acriada': require('../../assets/acriada.jpeg'),
     'harrypotterbook': require('../../assets/harrypotterbook.jpg'),
@@ -81,10 +83,9 @@ const toggleListPrivacy = (listName) => {
         totalPoints,
         setTotalPoints,
         wishlist,
-        addToWishlist,
-        removeFromWishlist,
         lists,
         addBookToList,
+        removeBookFromList,
         createList,
         removeList,
         toggleListPrivacy,
