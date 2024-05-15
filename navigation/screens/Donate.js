@@ -1,22 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, NumberInput, ScrollView, Alert, } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Modal } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { FlatList } from 'react-native-gesture-handler';
 import { useIsFocused } from '@react-navigation/native';
 import { useGlobalState } from './GlobalContext';
-
-
-
+import Toast from 'react-native-toast-message';
 
 export default function DonateScreen({ navigation }) {
   const scrollViewRef = useRef();
   const isFocused = useIsFocused();
-
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -24,14 +19,14 @@ export default function DonateScreen({ navigation }) {
     }
   }, []); // The empty array will cause this effect to run only on mount
 
-
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [summaryModalVisible, setSummaryModalVisible] = useState(false);
   const onClose = () => setModalVisible(false);
 
   const [points, setPoints] = useState(0);
   const [bookPoints, setBookPoints] = useState(0);
-  const {totalPoints, setTotalPoints} = useGlobalState();
+  const { totalPoints, setTotalPoints } = useGlobalState();
+  const [somaPontos, setSomaPontos] = useState(0);
 
   const [selectedCity, setSelectedCity] = useState('City');
   const [selectedStore, setSelectedStore] = useState('Store');
@@ -102,21 +97,17 @@ export default function DonateScreen({ navigation }) {
     }
 
     return true;
-
-
   };
-
 
   const reset = () => {
     setTitle('');
     setAuthor('');
     setISBN('');
     setBookState('');
-    setDate(new Date());  // Resets date to current date
+    setDate(new Date()); // Resets date to current date
     setShowDatePicker(false);
     setPoints(0);
   };
-
 
   const resetFieldsAndNavigate = () => {
     // Reset all the fields
@@ -124,15 +115,16 @@ export default function DonateScreen({ navigation }) {
     setAuthor('');
     setISBN('');
     setBookState('');
-    setDate(new Date());  // Resets date to current date
+    setDate(new Date()); // Resets date to current date
     setShowDatePicker(false);
     setSelectedCity('City');
     setSelectedStore('Store');
     setPoints(0);
-    setTotalPoints(0);
+    setTotalPoints(totalPoints + somaPontos);
+    setSomaPontos(0);
+
 
     books.length = 0;
-
 
     navigation.navigate('Book');
   };
@@ -179,18 +171,15 @@ export default function DonateScreen({ navigation }) {
 
   const [books, setBooks] = useState([]);
 
-
   useEffect(() => {
     // This will be called after the state update has been applied
     console.log('Book Points:', bookPoints);
   }, [bookPoints]); // Only re-run the effect if bookPoints changes
 
   const addBook = () => {
-    // ... your logic for adding a book
     const pontos = getRandomPoints(bookState);
     setBookPoints(pontos);
     setPoints(pontos);
-
 
     console.log('Points: ' + points);
 
@@ -203,21 +192,24 @@ export default function DonateScreen({ navigation }) {
       city: selectedCity,
       store: selectedStore,
       points: pontos,
-
-
     };
-
 
     if (checkFields()) {
       setBooks([...books, newBook]);
-      
-      setModalVisible(true);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Book Added',
+        text2: `Your book has been added with ${pontos} points!`,
+        visibilityTime: 4000,
+        autoHide: true,
+        text1Style: { fontSize: 18 },
+        
+      });
+      setSomaPontos(somaPontos + pontos);
       reset();
     }
-
   };
-
-
 
 
   function getRandomPoints(bookState) {
@@ -246,24 +238,21 @@ export default function DonateScreen({ navigation }) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  const [summaryModalVisible, setSummaryModalVisible] = useState(false);
-
-
   const displayBooksSummary = () => {
     if (books.length === 0) {
       Alert.alert('No books', 'Please add at least one book.');
       return;
     }
     setSummaryModalVisible(true); // Show the summary modal
-    setTotalPoints(totalPoints + bookPoints);
   };
+
+
 
   const RemoveBook = (index) => {
     const newBooks = books.filter((_, bookIndex) => bookIndex !== index);
     setBooks(newBooks);
-    setTotalPoints(totalPoints - books[index].points);
+    setSomaPontos(somaPontos - books[index].points);
   };
-
 
   return (
     <View style={styles.container}>
@@ -273,7 +262,6 @@ export default function DonateScreen({ navigation }) {
           <Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 120, color: 'darkgreen' }}>{totalPoints}
             <MaterialCommunityIcons name="leaf" size={20} color="green" />
           </Text>
-
         </View>
 
         <View >
@@ -307,8 +295,6 @@ export default function DonateScreen({ navigation }) {
         </Picker>
         <ErrorMessage message={errorStore} />
 
-
-
         <Text style={{ marginLeft: 10, fontSize: 20, fontWeight: 'bold', marginTop: 5, marginBottom: 20 }}>Informations about the book:</Text>
 
         <View style={styles.labelContainer}>
@@ -321,7 +307,6 @@ export default function DonateScreen({ navigation }) {
           value={title}
           onChangeText={setTitle}
         />
-
 
         <View style={styles.labelContainer}>
           <Text style={styles.label}>Author:</Text>
@@ -371,7 +356,6 @@ export default function DonateScreen({ navigation }) {
             <Text style={styles.bookStateText}>Barely Used</Text>
           </TouchableOpacity>
 
-
           <TouchableOpacity
             style={[
               styles.bookStateOption,
@@ -395,11 +379,7 @@ export default function DonateScreen({ navigation }) {
           >
             <Text style={styles.dateText}>{date.toDateString()}</Text>
             <MaterialCommunityIcons name="calendar" size={24} color="black" style={{ marginLeft: 10 }} />
-
-
           </TouchableOpacity>
-
-
         </View>
 
         <View style={styles.centeredcontainer}>
@@ -410,10 +390,9 @@ export default function DonateScreen({ navigation }) {
 
         <View style={styles.centeredcontainer}>
           {books.length > 0 ? (
-            <TouchableOpacity style={styles.buttonContainer} 
+            <TouchableOpacity style={styles.buttonContainer}
               onPress={() => {
                 displayBooksSummary();  // Call the first function
-                           // Call the second function
               }}
             >
               <Text style={styles.buttonText}>Submit</Text>
@@ -421,11 +400,7 @@ export default function DonateScreen({ navigation }) {
             <TouchableOpacity style={styles.buttonContainerInactive}>
               <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>)}
-
-
         </View>
-
-
 
         {showDatePicker && (
           <View style={styles.pickerContainer}>
@@ -440,32 +415,7 @@ export default function DonateScreen({ navigation }) {
 
       </ScrollView>
 
-
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={onClose}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-
-            <Text style={styles.modalTextPoints}>Your book has been added with <Text style={styles.points}>{bookPoints}</Text> Points
-              <MaterialCommunityIcons name="leaf" size={20} color="green" />
-            </Text>
-            <LottieView
-              source={require('../../assets/points.json')}
-              autoPlay
-              loop
-              style={styles.lottieStyle}
-            />
-            <TouchableOpacity onPress={onClose}>
-              <Text style={styles.buttonText}>OK</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
 
       <Modal
         animationType="slide"
@@ -475,20 +425,17 @@ export default function DonateScreen({ navigation }) {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalViewSubmit}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'darkgreen' }}>Sumary of books:</Text>
+            <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'darkgreen' }}>Summary of books:</Text>
             <ScrollView>
               {books.map((book, index) => (
                 <Text key={index} style={styles.modalText}>
-
                   <View style={{ flexDirection: 'row', fontSize: 20 }}>
-                    <Text style={{ fontWeight: 'bold',fontSize: 20 }}>Book {index + 1}</Text>
-                    <View style={{ alignItems: 'flex-end', marginLeft: 190}}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Book {index + 1}</Text>
+                    <View style={{ alignItems: 'flex-end', marginLeft: 190 }}>
                       <TouchableOpacity onPress={() => RemoveBook(index)}>
                         <MaterialCommunityIcons name="delete" size={24} color="red" />
                       </TouchableOpacity>
                     </View>
-  
-                    
                   </View>
                   {'\n'}
                   - Title: {book.title}{'\n'}
@@ -499,14 +446,13 @@ export default function DonateScreen({ navigation }) {
                   - Store: {book.store}{'\n'}
                   - Date: {book.date.toDateString()}{'\n'}
                   <Text style={styles.modalTextPoints}>
-                  - Points: <Text {...styles.points} >{book.points}</Text>
-                  <MaterialCommunityIcons name="leaf" size={20} color="green" />
+                    - Points: <Text {...styles.points} >{book.points}</Text>
+                    <MaterialCommunityIcons name="leaf" size={20} color="green" />
                   </Text>
                 </Text>
-
               ))}
               <Text style={styles.modalTextTotal}>
-                Total Points: {totalPoints}
+                Total Points: {somaPontos}
                 <MaterialCommunityIcons name="leaf" size={20} color="green" />
               </Text>
             </ScrollView>
@@ -515,33 +461,52 @@ export default function DonateScreen({ navigation }) {
                 style={styles.button}
                 onPress={() => setSummaryModalVisible(false)}
               >
-                <Text style={{fontSize: 18}}>Add More Books <MaterialCommunityIcons  size={22} name='plus-circle'></MaterialCommunityIcons></Text>
+                <Text style={{ fontSize: 18 }}>Add More Books <MaterialCommunityIcons size={22} name='plus-circle'></MaterialCommunityIcons></Text>
               </TouchableOpacity>
             </View>
             <View style={styles.button}>
-              
-            <TouchableOpacity
-                  onPress={() => {
-                    if (books.length > 0) {
-                      resetFieldsAndNavigate();
-                    } else {
-                      reset();
-                    }
-                    setSummaryModalVisible(false);
-                    setTotalPoints(totalPoints);
-                  }}
-                >
-                  <Text style={{ fontSize: 18 }}>Confirm</Text>
-                </TouchableOpacity>
-
-
+              <TouchableOpacity
+                onPress={() => { setModalVisible(true); setSummaryModalVisible(false); }}
+              >
+                <Text style={{ fontSize: 18 }}>Confirm</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
 
-    </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={onClose}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalTextPoints}>Your book(s) has been added with <Text style={styles.points}>{somaPontos}</Text> Points
+              <MaterialCommunityIcons name="leaf" size={20} color="green" />
+            </Text>
+            <LottieView
+              source={require('../../assets/points.json')}
+              autoPlay
+              loop
+              style={styles.lottieStyle}
+            />
+            <TouchableOpacity onPress={() => {
+              if (books.length > 0) {
+                resetFieldsAndNavigate();
+              } else {
+                reset();
+              }
+              setModalVisible(false);
+            }}>
+              <Text style={styles.buttonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
+    </View>
   );
 };
 
@@ -550,286 +515,286 @@ export default function DonateScreen({ navigation }) {
 
 
 
-const styles = StyleSheet.create({
-  points: {
+  const styles = StyleSheet.create({
+    points: {
 
-    color: 'darkgreen',
-    fontWeight: 'bold',
-    // you can add other styling specific to the underlined text if needed
-  },
-  errorText: {
-    color: 'red',
-    fontSize: 14,
-    flex: 1,
-    marginBottom: 10,
-    marginLeft: 20
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center',
-    backgroundColor: '#fff',
-
-
-
-    padding: 30
-  },
-  picker: {
-    backgroundColor: '#fff',
-    height: 50,
-    width: 200,
-    marginLeft: 15,
-    borderColor: 'black',
-    borderWidth: 5,
-    borderRadius: 55,
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 3,
-    elevation: 10
-
-  },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  
-  label: {
-    fontSize: 18,
-    marginRight: 10,
-    marginBottom: 10,
-    marginLeft: 15,
-  },
-
-  labelContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-
-  headerText: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
-    marginBottom: 20,
-    marginTop: 20,
-    marginLeft: 10,
-    flexDirection: 'row', 
-    fontWeight: 'bold', 
-    justifyContent: 'space-between'
-  },
-
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: 'gray',
-    padding: 10,
-    marginBottom: 10,
-    height: 40,
-    marginLeft: 20,
-    width: "90%",
-    borderRadius: 7,
-  },
-  inputLabel: {
-    marginLeft: 10,
-    marginRight: 10,
-    fontSize: 20,
-    marginTop: 5,
-  },
-
-  textBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderWidth: 0,
-    borderColor: '#E0E0E0',
-    borderRadius: 5,
-    padding: 10, marginRight: 60,
-    marginBottom: 15,
-  },
-  bookStateContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginLeft: 25,
-    marginBottom: 20,
-  },
-  bookStateOption: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    padding: 10,
-    borderRadius: 4,
-    marginRight: 10,
-  },
-  selected: {
-    backgroundColor: 'lightgray',
-    borderColor: 'black',
-  },
-  bookStateText: {
-    color: 'black',
-  },
-
-  dateText: {
-    color: '#000',
-    fontSize: 18,
-    textDecorationLine: 'underline',
-  },
-
-  dateTimePicker: {
-    elevation: 10,
-    shadowColor: '#000',
-    borderRadius: 5,
-  },
-
-  buttonContainer: {
-    backgroundColor: '#addfad',
-    borderColor: 'black',
-    paddingBottom: 10,
-    paddingTop: 10,
-    width: '50%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-    elevation: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.75,
-    shadowRadius: 15,
-    borderColor: '#000',
-    borderRadius: 35,
-  },
-
-  button: {
-    backgroundColor: '#addfad', // Cor do fundo do botão
-    paddingVertical: 10, // Espaçamento vertical dentro do botão
-    paddingHorizontal: 20, // Espaçamento horizontal dentro do botão
-    marginBottom: 20, // Espaço na parte inferior
-    borderRadius: 20, // Bordas arredondadas
-    marginHorizontal: 10, // Espaço entre os botões
-    minWidth: 120, // Largura mínima para cada botão
-    textAlign: 'center', // Centralizar texto
-    alignItems: 'center', // Centralizar conteúdo
-    fontSize: 20, // Tamanho da fonte
-  },
-  buttonText: {
-    color: 'white', // Cor do texto
-    textAlign: 'center', // Centralizar texto
-    fontWeight: 'bold', // Negrito 
-  },
-  buttonContainerInactive: {
-    opacity: 0.3,
-    backgroundColor: 'lightgray',
-    borderColor: 'black',
-    paddingBottom: 10,
-    paddingTop: 10,
-    width: '50%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-
-
-    borderColor: '#000',
-    borderRadius: 35,
-
-
-  },
-  centeredcontainer: {
-
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 20,
-    
-
-  },
-  buttonText: {
-    fontSize: 20,
-    color: '#000', // Text color
-    justifyContent: 'center',
-    alignItems: 'center',
-
-
-  },
-  informative: {
-    fontSize: 15,
-    marginLeft: 10,
-    marginRight: 10,
-
-    color: 'gray',
-    textAlign: 'justify',
-
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-    fontSize: 20,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: '#F0F0F0',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
+      color: 'darkgreen',
+      fontWeight: 'bold',
+      // you can add other styling specific to the underlined text if needed
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    fontSize: 20,
-
-  },
-  modalViewSubmit: {
-    margin: 20,
-    backgroundColor: '#F0F0F0',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
+    errorText: {
+      color: 'red',
+      fontSize: 14,
+      flex: 1,
+      marginBottom: 10,
+      marginLeft: 20
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignContent: 'center',
+      backgroundColor: '#fff',
 
-  },
-  modalText: {
-    fontSize: 20,
-    marginBottom: 15,
-    textAlign: 'left',
-    letterSpacing: 0.75,
-    lineHeight: 30,
-  },
-  modalTextPoints: {
-    fontSize: 20,
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  modalTextTotal: {
-    fontSize: 20,
-    marginBottom: 15,
-    textAlign: 'left',
-    letterSpacing: 0.75,
-    lineHeight: 30,
-    fontWeight: 'bold',
-    
-  },
 
-  lottieStyle: {
-    width: 100,
-    height: 100,
-  }
 
-});
+      padding: 30
+    },
+    picker: {
+      backgroundColor: '#fff',
+      height: 50,
+      width: 200,
+      marginLeft: 15,
+      borderColor: 'black',
+      borderWidth: 5,
+      borderRadius: 55,
+      shadowColor: 'black',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 3,
+      elevation: 10
+
+    },
+    inputRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+
+    inputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 20,
+    },
+
+    label: {
+      fontSize: 18,
+      marginRight: 10,
+      marginBottom: 10,
+      marginLeft: 15,
+    },
+
+    labelContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+
+    headerText: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      textDecorationLine: 'underline',
+      marginBottom: 20,
+      marginTop: 20,
+      marginLeft: 10,
+      flexDirection: 'row',
+      fontWeight: 'bold',
+      justifyContent: 'space-between'
+    },
+
+    input: {
+      flex: 1,
+      borderWidth: 1,
+      borderColor: 'gray',
+      padding: 10,
+      marginBottom: 10,
+      height: 40,
+      marginLeft: 20,
+      width: "90%",
+      borderRadius: 7,
+    },
+    inputLabel: {
+      marginLeft: 10,
+      marginRight: 10,
+      fontSize: 20,
+      marginTop: 5,
+    },
+
+    textBar: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#fff',
+      borderWidth: 0,
+      borderColor: '#E0E0E0',
+      borderRadius: 5,
+      padding: 10, marginRight: 60,
+      marginBottom: 15,
+    },
+    bookStateContainer: {
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      marginLeft: 25,
+      marginBottom: 20,
+    },
+    bookStateOption: {
+      borderWidth: 1,
+      borderColor: 'gray',
+      padding: 10,
+      borderRadius: 4,
+      marginRight: 10,
+    },
+    selected: {
+      backgroundColor: 'lightgray',
+      borderColor: 'black',
+    },
+    bookStateText: {
+      color: 'black',
+    },
+
+    dateText: {
+      color: '#000',
+      fontSize: 18,
+      textDecorationLine: 'underline',
+    },
+
+    dateTimePicker: {
+      elevation: 10,
+      shadowColor: '#000',
+      borderRadius: 5,
+    },
+
+    buttonContainer: {
+      backgroundColor: '#addfad',
+      borderColor: 'black',
+      paddingBottom: 10,
+      paddingTop: 10,
+      width: '50%',
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden',
+      elevation: 10,
+      shadowColor: '#000',
+      shadowOpacity: 0.75,
+      shadowRadius: 15,
+      borderColor: '#000',
+      borderRadius: 35,
+    },
+
+    button: {
+      backgroundColor: '#addfad', // Cor do fundo do botão
+      paddingVertical: 10, // Espaçamento vertical dentro do botão
+      paddingHorizontal: 20, // Espaçamento horizontal dentro do botão
+      marginBottom: 20, // Espaço na parte inferior
+      borderRadius: 20, // Bordas arredondadas
+      marginHorizontal: 10, // Espaço entre os botões
+      minWidth: 120, // Largura mínima para cada botão
+      textAlign: 'center', // Centralizar texto
+      alignItems: 'center', // Centralizar conteúdo
+      fontSize: 20, // Tamanho da fonte
+    },
+    buttonText: {
+      color: 'white', // Cor do texto
+      textAlign: 'center', // Centralizar texto
+      fontWeight: 'bold', // Negrito 
+    },
+    buttonContainerInactive: {
+      opacity: 0.3,
+      backgroundColor: 'lightgray',
+      borderColor: 'black',
+      paddingBottom: 10,
+      paddingTop: 10,
+      width: '50%',
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden',
+
+
+      borderColor: '#000',
+      borderRadius: 35,
+
+
+    },
+    centeredcontainer: {
+
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingBottom: 20,
+
+
+    },
+    buttonText: {
+      fontSize: 20,
+      color: '#000', // Text color
+      justifyContent: 'center',
+      alignItems: 'center',
+
+
+    },
+    informative: {
+      fontSize: 15,
+      marginLeft: 10,
+      marginRight: 10,
+
+      color: 'gray',
+      textAlign: 'justify',
+
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 22,
+      fontSize: 20,
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: '#F0F0F0',
+      borderRadius: 20,
+      padding: 35,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+      fontSize: 20,
+
+    },
+    modalViewSubmit: {
+      margin: 20,
+      backgroundColor: '#F0F0F0',
+      borderRadius: 20,
+      padding: 35,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+
+    },
+    modalText: {
+      fontSize: 20,
+      marginBottom: 15,
+      textAlign: 'left',
+      letterSpacing: 0.75,
+      lineHeight: 30,
+    },
+    modalTextPoints: {
+      fontSize: 20,
+      marginBottom: 15,
+      textAlign: 'center',
+    },
+    modalTextTotal: {
+      fontSize: 20,
+      marginBottom: 15,
+      textAlign: 'left',
+      letterSpacing: 0.75,
+      lineHeight: 30,
+      fontWeight: 'bold',
+
+    },
+
+    lottieStyle: {
+      width: 100,
+      height: 100,
+    }
+
+  });
 
 
