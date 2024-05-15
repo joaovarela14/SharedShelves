@@ -33,7 +33,7 @@ export default function BooksScreen({ navigation }) {
                 </LinearGradient>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.aquireButton}>
+            <TouchableOpacity style={styles.aquireButton} onPress={() => navigation.navigate('Aquire')} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={styles.aquirebuttonText}>Aquire Points</Text>
                     <MaterialCommunityIcons name="leaf" size={24} color="green" style={{ marginLeft: 10 }} />
