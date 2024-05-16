@@ -1,17 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function Feed() {
+export default function Feed({navigation}) {
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.logo}>{'SharedShelves'}</Text>
 
-      <View style={styles.action}>
-        <View style={styles.actionContent}>
-          <Text style={styles.actionText}>⚠️ Enjoy a 20% discount on 'The Housemaid's Secret' this week! ⚠️</Text>
+      <TouchableOpacity onPress = {() => navigation.navigate('BookDetails')}>
+        <View style={styles.action}>
+          <View style={styles.actionContent}>
+            <Text style={styles.actionText}>⚠️ Enjoy a 5% discount on 'The Housemaid's Secret' this week! ⚠️</Text>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.action}>
         <View style={styles.actionContent}>
