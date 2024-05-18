@@ -25,10 +25,8 @@ export default function SearchScreen({ navigation }) {
     { source: require('../../assets/stephenking.jpg') },
     { source: require('../../assets/acriada.jpeg') },
     { source: require('../../assets/behindthenet.jpg') },
-    { source: require('../../assets/1984.jpg') },
-    { source: require('../../assets/itendswithus.jpg') },
     { source: require('../../assets/thehousemaidsecret.jpg') },
-    { source: require('../../assets/thehousemaidiswatching.jpeg') },
+    { source: require('../../assets/1984.jpg') },
   ];
 
   const imageMap = {
@@ -44,26 +42,26 @@ export default function SearchScreen({ navigation }) {
   const {bookCover} = useGlobalState();
 
   const defaultCover = require('../../assets/defaultcover.jpeg');
-  
+
   const getImageForBook = (coverKey) => {
     const keys = Object.keys(bookCover);
     if (bookCover[coverKey]){
-      console.log('coverKey:', coverKey);
+      // console.log('coverKey:', coverKey);
       return bookCover[coverKey];
     }
     const size = keys.length;
     const index = Math.floor(Math.random() * size);
     const randomKey = keys[index];
-    console.log('randomKey:', randomKey);
+    // console.log('randomKey:', randomKey);
     return bookCover[randomKey] || defaultCover;
   };
 
   const coverImage = getImageForBook(searchResults.cover);
-  console.log('Cover Image:', coverImage);
+  // console.log('Cover Image:', coverImage);
 
   const handleSearch = () => {
 
-    console.log("Search query:", searchQuery);
+    // console.log("Search query:", searchQuery);
 
     if (!searchQuery.trim()) {
       Alert.alert('Error', 'Please enter something to search.');
@@ -158,7 +156,7 @@ export default function SearchScreen({ navigation }) {
       // Filtra livros que incluem o gênero específico
       filteredBooks = booksData.filter(book => book.genres.includes(genre));
     }
-  
+
     setModalData(filteredBooks);
     setModalVisible2(true);
   };
@@ -208,7 +206,7 @@ export default function SearchScreen({ navigation }) {
           </View>
 
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', borderColor: 'gray', borderWidth: 1, borderRadius: 5, paddingVertical: 5, paddingHorizontal: 10, marginTop: 20, zIndex: 1,width:"100%" }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', borderColor: 'gray', borderWidth: 1, borderRadius: 5, paddingVertical: 5, paddingHorizontal: 10, marginTop: 20, zIndex: 1, width: "100%" }}>
             <Ionicons name="search" size={20} color="gray" style={{ marginRight: 10 }} />
             <TextInput
               placeholder="Search title or author"
@@ -240,7 +238,7 @@ export default function SearchScreen({ navigation }) {
             )}
 
             <TouchableOpacity
-              onPress={handleSearch}
+              onPress={() => handleSearch(searchQuery)}
               style={styles.button}>
               <Text style={styles.buttonText}>Enter</Text>
             </TouchableOpacity>
@@ -248,7 +246,7 @@ export default function SearchScreen({ navigation }) {
           </View>
 
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' ,width:"98%"}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: "98%" }}>
             <Text style={{ fontSize: 25, fontWeight: 'bold', marginTop: 10, zIndex: 0 }}>Recent</Text>
             <TouchableOpacity onPress={clearSearchHistory} style={styles.buttonclear}>
               <Text style={styles.buttonText}>Clear</Text>
@@ -262,7 +260,7 @@ export default function SearchScreen({ navigation }) {
                   <View key={index} style={styles.recentSearchItem}>
                     <TouchableOpacity onPress={() => {
                       setSearchQuery(search);
-                      handleSearch;
+                      handleSearch(search);
                     }
                     }>
                       <Text style={styles.recentSearchText}>{search}</Text>
@@ -292,9 +290,9 @@ export default function SearchScreen({ navigation }) {
                 () => {
                   console.log('Search:', searchHistory[searchHistory.length - 1]);
                   setSearchQuery(searchHistory[searchHistory.length - 1]);
-                  handleSearch;
+                  handleSearch(searchHistory[searchHistory.length - 1]);
                 }
-              
+
               }>
                 <View style={styles.card}>
                   <Image
@@ -320,26 +318,28 @@ export default function SearchScreen({ navigation }) {
                 <FlatList
                   data={searchResults}
                   keyExtractor={item => item.id.toString()}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      onPress={() => {
-                        closeModal();
-                        setSelectedBookIndex(item.id);
-                        navigation.navigate('BookDetails');
-                        console.log('Selected book:', item);
-
-                      }}
-                      style={styles.modalItem}
-                    >
-                      <Image source={getImageForBook(item.cover)} style={styles.modalImage} />
-                      <View style={styles.modalTextContainer}>
-                        <Text style={styles.modalTitle}>{item.title}</Text>
-                        <Text style={styles.modalAuthor}>{item.author}</Text>
-                        <Text style={styles.modalGenres}>{item.genres.join(', ')}</Text>
-                        <Text style={styles.modalRating}>{item.rating} ★</Text>
-                      </View>
-                    </TouchableOpacity>
-                  )}
+                  renderItem={({ item }) => {
+                    const bookCoverImage = getImageForBook(item.cover); // Chama a função para cada item
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          closeModal();
+                          setSelectedBookIndex(item.id);
+                          navigation.navigate('BookDetails');
+                          console.log('Selected book:', item);
+                        }}
+                        style={styles.modalItem}
+                      >
+                        <Image source={bookCoverImage} style={styles.modalImage} />
+                        <View style={styles.modalTextContainer}>
+                          <Text style={styles.modalTitle}>{item.title}</Text>
+                          <Text style={styles.modalAuthor}>{item.author}</Text>
+                          <Text style={styles.modalGenres}>{item.genres.join(', ')}</Text>
+                          <Text style={styles.modalRating}>{item.rating} ★</Text>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  }}
                 />
                 <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
                   <Text>Close</Text>
@@ -347,6 +347,7 @@ export default function SearchScreen({ navigation }) {
               </View>
             </View>
           </Modal>
+
 
           <Modal
             animationType="slide"
@@ -359,24 +360,27 @@ export default function SearchScreen({ navigation }) {
                 <FlatList
                   data={modalData}
                   keyExtractor={item => item.id.toString()}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      onPress={() => {
-                        closeModal2();
-                        setSelectedBookIndex(item.id);
-                        navigation.navigate('BookDetails');
-                      }}
-                      style={styles.modalItem}
-                    >
-                      <Image source={coverImage} style={styles.modalImage} />
-                      <View style={styles.modalTextContainer}>
-                        <Text style={styles.modalTitle}>{item.title}</Text>
-                        <Text style={styles.modalAuthor}>{item.author}</Text>
-                        <Text style={styles.modalGenres}>{item.genres.join(', ')}</Text>
-                        <Text style={styles.modalRating}>{item.rating} ★</Text>
-                      </View>
-                    </TouchableOpacity>
-                  )}
+                  renderItem={({ item }) => {
+                    const bookCoverImage = getImageForBook(item.cover); // Chama a função para cada item
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          closeModal2();
+                          setSelectedBookIndex(item.id);
+                          navigation.navigate('BookDetails');
+                        }}
+                        style={styles.modalItem}
+                      >
+                        <Image source={bookCoverImage} style={styles.modalImage} />
+                        <View style={styles.modalTextContainer}>
+                          <Text style={styles.modalTitle}>{item.title}</Text>
+                          <Text style={styles.modalAuthor}>{item.author}</Text>
+                          <Text style={styles.modalGenres}>{item.genres.join(', ')}</Text>
+                          <Text style={styles.modalRating}>{item.rating} ★</Text>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  }}
                 />
                 <TouchableOpacity onPress={closeModal2} style={styles.closeButton}>
                   <Text>Close</Text>
@@ -387,10 +391,9 @@ export default function SearchScreen({ navigation }) {
 
           <Text style={styles.sectionTitle}>Top Book Search</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollViewContainer}>
-
             {topBooks.map((book, index) => (
               <TouchableOpacity
-                key={index} // A propriedade key deve ser aqui
+                key={index}
                 onPress={() => {
                   setSelectedBookIndex(index);
                   navigation.navigate('BookDetails');
@@ -402,7 +405,6 @@ export default function SearchScreen({ navigation }) {
                 </View>
               </TouchableOpacity>
             ))}
-
           </ScrollView>
 
           <View>

@@ -61,6 +61,21 @@
 
   {
     "id": 4,
+    "title": "Behind the Net",
+    "author": "Stephanie Archer",
+    "rating": 4.7,
+    "genres": ["Romance", "Sports"],
+    "description": "In 'Behind the Net', Stephanie Archer takes readers into the world of professional hockey where love and ambition collide. Follow the journey of a determined athlete and the unexpected romance that changes everything.",
+    "cover": "behindthenet",
+    "stores": [
+      { "name": "Fnac", "price": "12.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "11.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "14.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+    ]
+  },
+
+  {
+    "id": 4,
     "title": "The Housemaid's Secret",
     "author": "Freida McFadden",
     "rating": 4.5,
@@ -76,16 +91,16 @@
 
   {
     "id": 5,
-    "title": "The Great Gatsby",
-    "author": "F. Scott Fitzgerald",
-    "rating": 4.4,
-    "genres": ["Classic", "Historical Fiction"],
-    "description": "A novel about the Roaring Twenties and the elusive pursuit of the American Dream.",
-    "cover": "great",
+    "title": "1984",
+    "author": "George Orwell",
+    "rating": 4.8,
+    "genres": ["Fiction", "Dystopian"],
+    "description": "A dystopian novel set in a totalitarian regime of the future, describing the life of Winston Smith, a low-ranking member of 'the Party'.",
+    "cover": "1984",
     "stores": [
-      { "name": "Fnac", "price": "14.99€", "logo": "fnacLogo" },
-      { "name": "Bertrand", "price": "13.99€", "logo": "bertrandLogo" },
-      { "name": "Wook", "price": "18.99€", "logo": "wookLogo" }
+      { "name": "Fnac", "price": "11.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
+      { "name": "Bertrand", "price": "12.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
+      { "name": "Wook", "price": "10.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
     ]
   },
   {
@@ -135,16 +150,15 @@
 
   {
     "id": 9,
-    "title": "1984",
-    "author": "George Orwell",
-    "rating": 4.8,
-    "genres": ["Fiction", "Dystopian"],
-    "description": "A dystopian novel set in a totalitarian regime of the future, describing the life of Winston Smith, a low-ranking member of 'the Party'.",
-    "cover": "1984cover",
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "rating": 4.4,
+    "genres": ["Classic", "Historical Fiction"],
+    "description": "A novel about the Roaring Twenties and the elusive pursuit of the American Dream.",
     "stores": [
-      { "name": "Fnac", "price": "11.99€", "logo": "fnacLogo", "url": "https://www.fnac.pt" },
-      { "name": "Bertrand", "price": "12.99€", "logo": "bertrandLogo", "url": "https://www.bertrand.pt" },
-      { "name": "Wook", "price": "10.99€", "logo": "wookLogo", "url": "https://www.wook.pt" }
+      { "name": "Fnac", "price": "14.99€", "logo": "fnacLogo" },
+      { "name": "Bertrand", "price": "13.99€", "logo": "bertrandLogo" },
+      { "name": "Wook", "price": "18.99€", "logo": "wookLogo" }
     ]
   },
   {
