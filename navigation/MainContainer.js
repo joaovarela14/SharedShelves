@@ -128,7 +128,7 @@ export default function MainContainer() {
 
         }}
       >
-         {/* <Stack.Screen name="FirstPage" component={FirstPage} /> */}
+        <Stack.Screen name="FirstPage" component={FirstPage} />
         <Stack.Screen name="MainTabs" component={MainTabNavigator} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Donate" component={DonateScreen} />

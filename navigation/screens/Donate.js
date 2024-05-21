@@ -384,7 +384,7 @@ export default function DonateScreen({ navigation }) {
 
         <View style={styles.centeredcontainer}>
           <TouchableOpacity style={styles.buttonContainer} >
-            <Text style={styles.buttonText} onPress={addBook}>Add Book</Text>
+            <Text style={styles.buttonText} onPress={addBook} onClick={addBook}>Add Book</Text>
           </TouchableOpacity>
         </View>
 
@@ -415,7 +415,7 @@ export default function DonateScreen({ navigation }) {
 
       </ScrollView>
 
-      <Toast ref={(ref) => Toast.setRef(ref)} />
+      <Toast />
 
       <Modal
         animationType="slide"

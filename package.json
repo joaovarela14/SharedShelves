@@ -10,7 +10,9 @@
     "build-web": "expo export --platform web"
   },
   "dependencies": {
+    "@dotlottie/react-player": "^1.6.19",
     "@expo/metro-runtime": "~3.2.1",
+    "@lottiefiles/react-lottie-player": "^3.5.3",
     "@react-native-clipboard/clipboard": "^1.14.0",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/datetimepicker": "8.0.1",
