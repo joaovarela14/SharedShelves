@@ -306,7 +306,7 @@ export default function GetBook({ navigation }) {
             ]}
             onPress={() => setBookState('barelynew')}
           >
-            <Text style={styles.bookStateText}>Barely New</Text>
+            <Text style={styles.bookStateText}>Barely Used</Text>
           </TouchableOpacity>
 
 
