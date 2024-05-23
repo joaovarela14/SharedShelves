@@ -11,6 +11,7 @@ export default function FirstPage({navigation}) {
             <Image
                 source={require('../../assets/SharedShelves.png')}
                 style={{ width: 150, height: 150, marginTop: 20 }}
+                
             />
             <Text style={{ fontSize: 27, fontWeight: 'bold', marginTop:10 }}>SharedShelves</Text> 
             <Text style={{ fontSize: 18, marginTop: 7}}>The 3 R'S:"Read, Recycle, Reconnect"</Text>
