@@ -3281,7 +3281,7 @@ expo-status-bar@~1.12.1:
   resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-1.12.1.tgz#52ce594aab5064a0511d14375364d718ab78aa66"
   integrity sha512-/t3xdbS8KB0prj5KG5w7z+wZPFlPtkgs95BsmrP/E7Q0xHXTcDcQ6Cu2FkFuRM+PKTb17cJDnLkawyS5vDLxMA==
 
-expo@^51.0.5:
+expo@^51.0.8:
   version "51.0.8"
   resolved "https://registry.yarnpkg.com/expo/-/expo-51.0.8.tgz#a7981e86ee20eac4b847c7c8cc5799d9c6b1508d"
   integrity sha512-bdTOiMb1f3PChtuqEZ9czUm2gMTmS0r1+H+Pkm2O3PsuLnOgxfIBzL6S37+J4cUocLBaENrmx9SOGKpzhBqXpg==
